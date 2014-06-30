@@ -62,7 +62,7 @@ describe('cross-spawn', function () {
         });
     });
 
-    it('should handle arguments with \\\\"', function (next) {
+    it('should handle arguments with \\"', function (next) {
         buffered('node', [
             __dirname + '/fixtures/echo',
             'foo',
@@ -118,10 +118,10 @@ describe('cross-spawn', function () {
     });
 
     it('should handle special arguments when using echo', function (next) {
-        buffered('echo', ['foo&bar'], function (err, data, code) {
+        buffered('echo', ['foo\\"foo\\foo&bar"foo\'bar'], function (err, data, code) {
             expect(err).to.not.be.ok();
             expect(code).to.be(0);
-            expect(data.trim()).to.equal('foo&bar');
+            expect(data.trim()).to.equal('foo\\"foo\\foo&bar"foo\'bar');
 
             next();
         });
