@@ -13,7 +13,7 @@ A cross platform solution to node's spawn.
 Node has issues when using spawn on Windows:
 
 - It ignores [PATHEXT](https://github.com/joyent/node/issues/2318)
-- It does not allow you to run `echo` or `dir`
+- It does not allow you to run `del` or `dir`
 
 All these issues are handled correctly by `cross-spawn`.
 
