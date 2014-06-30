@@ -123,7 +123,27 @@ describe('cross-spawn', function () {
             expect(code).to.be(0);
             expect(data.trim()).to.equal('foo\\"foo\\foo&bar"foo\'bar');
 
-            next();
+            buffered('echo', [
+                'foo',
+                '()',
+                'foo',
+                '%!',
+                'foo',
+                '^<',
+                'foo',
+                '>&',
+                'foo',
+                '|;',
+                'foo',
+                ', ',
+                'foo'
+            ], function (err, data, code) {
+                expect(err).to.not.be.ok();
+                expect(code).to.be(0);
+                expect(data.trim()).to.equal('foo () foo %! foo ^< foo >& foo |; foo ,  foo');
+
+                next();
+            });
         });
     });
 
