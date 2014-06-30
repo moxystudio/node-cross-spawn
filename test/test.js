@@ -48,6 +48,31 @@ describe('cross-spawn', function () {
         });
     });
 
+    it('should handle empty arguments', function (next) {
+        buffered('node', [
+            __dirname + '/fixtures/echo',
+            'foo',
+            '',
+            'bar'
+        ], function (err, data, code) {
+            expect(err).to.not.be.ok();
+            expect(code).to.be(0);
+            expect(data).to.equal('foo\n\nbar');
+
+            buffered('echo', [
+                'foo',
+                '',
+                'bar'
+            ], function (err, data, code) {
+                expect(err).to.not.be.ok();
+                expect(code).to.be(0);
+                expect(data.trim()).to.equal('foo  bar');
+
+                next();
+            });
+        });
+    });
+
     it('should handle arguments with spaces', function (next) {
         buffered('node', [
             __dirname + '/fixtures/echo',
