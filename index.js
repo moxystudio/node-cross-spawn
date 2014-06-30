@@ -49,7 +49,7 @@ function spawn(command, args, options) {
     });
 
     // Use cmd.exe
-    args = ['/c', '"' + command + (args.length ? ' ' + args.join(' ') : '') + '"'];
+    args = ['/s', '/c', '"' + command + (args.length ? ' ' + args.join(' ') : '') + '"'];
     command = 'cmd';
 
     // Tell node's spawn that the arguments are already escaped
