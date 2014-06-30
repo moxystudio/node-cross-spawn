@@ -1,4 +1,4 @@
-# cross-spawn
+# cross-spawn [![Build Status](https://travis-ci.org/IndigoUnited/node-cross-spawn.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-cross-spawn)
 
 A cross platform solution to node's spawn.
 
