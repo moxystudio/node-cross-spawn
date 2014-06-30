@@ -3,7 +3,7 @@ var cp = require('child_process');
 var isWin = process.platform === 'win32';
 
 function escapeArg(arg, quote) {
-    // If we not going to quote the argument,
+    // If we are not going to quote the argument,
     // escape shell metacharacters, including double and single quotes:
     if (!quote) {
         arg = arg.replace(/([\(\)%!\^<>&|;,"' ])/g, '^$1');
