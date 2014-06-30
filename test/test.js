@@ -1,0 +1,128 @@
+'use strict';
+
+var buffered = require('./util/buffered');
+var expect = require('expect.js');
+
+var isWin = process.platform === 'win32';
+
+describe('cross-spawn', function () {
+    it('should expand using PATHEXT properly', function (next) {
+        if (!isWin) {
+            return next();
+        }
+
+        buffered(__dirname + '/fixtures/foo', function (err, data, code) {
+            expect(err).to.not.be.ok();
+            expect(code).to.be(0);
+            expect(data.trim()).to.equal('foo');
+
+            next();
+        });
+    });
+
+    it('should handle commands with spaces', function (next) {
+        if (!isWin) {
+            return next();
+        }
+
+        buffered(__dirname + '/fixtures/bar space', function (err, data, code) {
+            expect(err).to.not.be.ok();
+            expect(code).to.be(0);
+            expect(data.trim()).to.equal('bar');
+
+            next();
+        });
+    });
+
+    it('should handle commands with special shell chars', function (next) {
+        if (!isWin) {
+            return next();
+        }
+
+        buffered(__dirname + '/fixtures/()%!^&|;, ', function (err, data, code) {
+            expect(err).to.not.be.ok();
+            expect(code).to.be(0);
+            expect(data.trim()).to.equal('foo');
+
+            next();
+        });
+    });
+
+    it('should handle arguments with spaces', function (next) {
+        buffered('node', [
+            __dirname + '/fixtures/echo',
+            'I am',
+            'André Cruz'
+        ], function (err, data, code) {
+            expect(err).to.not.be.ok();
+            expect(code).to.be(0);
+            expect(data).to.equal('I am\nAndré Cruz');
+
+            next();
+        });
+    });
+
+    it('should handle arguments with \\\\"', function (next) {
+        buffered('node', [
+            __dirname + '/fixtures/echo',
+            'foo',
+            '\\"',
+            'bar'
+        ], function (err, data, code) {
+            expect(err).to.not.be.ok();
+            expect(code).to.be(0);
+            expect(data).to.equal('foo\n\\"\nbar');
+
+            next();
+        });
+    });
+
+    it('should handle arguments that end with \\', function (next) {
+        buffered('node', [
+            __dirname + '/fixtures/echo',
+            'foo',
+            'bar\\',
+            'baz'
+        ], function (err, data, code) {
+            expect(err).to.not.be.ok();
+            expect(code).to.be(0);
+            expect(data).to.equal('foo\nbar\\\nbaz');
+
+            next();
+        });
+    });
+
+    it('should handle arguments that contain shell special chars', function (next) {
+        buffered('node', [
+            __dirname + '/fixtures/echo',
+            'foo',
+            '()',
+            'foo',
+            '%!',
+            'foo',
+            '^<',
+            'foo',
+            '>&',
+            'foo',
+            '|;',
+            'foo',
+            ', ',
+            'foo'
+        ], function (err, data, code) {
+            expect(err).to.not.be.ok();
+            expect(code).to.be(0);
+            expect(data).to.equal('foo\n()\nfoo\n%!\nfoo\n^<\nfoo\n>&\nfoo\n|;\nfoo\n, \nfoo');
+
+            next();
+        });
+    });
+
+    it('should give correct exit code', function (next) {
+        buffered('node', [ __dirname + '/fixtures/exit'], function (err, data, code) {
+            expect(err).to.not.be.ok();
+            expect(code).to.be(25);
+
+            next();
+        });
+    });
+});
