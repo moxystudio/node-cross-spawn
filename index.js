@@ -36,7 +36,7 @@ function spawn(command, args, options) {
         return cp.spawn(command, args, options);
     }
 
-    // Escape command & arguments;
+    // Escape command & arguments
     command = escapeCommand(command);
     args = (args || []).map(escapeArg);
 
