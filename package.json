@@ -7,11 +7,11 @@
     "test": "mocha -R spec"
   },
   "bugs": {
-    "url": "https://github.com/IndigoUnited/npde-cross-spawn/issues/"
+    "url": "https://github.com/IndigoUnited/node-cross-spawn/issues/"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/IndigoUnited/npde-cross-spawn.git"
+    "url": "git://github.com/IndigoUnited/node-cross-spawn.git"
   },
   "keywords": [
     "spawn",
