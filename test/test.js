@@ -117,6 +117,16 @@ describe('cross-spawn', function () {
         });
     });
 
+    it('should handle special arguments when using echo', function (next) {
+        buffered('echo', ['foo&bar'], function (err, data, code) {
+            expect(err).to.not.be.ok();
+            expect(code).to.be(0);
+            expect(data.trim()).to.equal('foo&bar');
+
+            next();
+        });
+    });
+
     it('should give correct exit code', function (next) {
         buffered('node', [ __dirname + '/fixtures/exit'], function (err, data, code) {
             expect(err).to.not.be.ok();

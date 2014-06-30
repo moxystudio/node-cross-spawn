@@ -2,7 +2,7 @@ var cp = require('child_process');
 
 var isWin = process.platform === 'win32';
 
-function escapeArg(arg) {
+function escapeArg(arg, quote) {
     // Sequence of backslashes followed by a double quote:
     // double up all the backslashes and escape the double quote
     arg = arg.replace(/(\\*)"/gi, '$1$1\\"');
@@ -15,10 +15,12 @@ function escapeArg(arg) {
     // All other backslashes occur literally
 
     // Quote the whole thing:
-    arg = '"' + arg + '"';
-
-    // Escape shell metacharacters:
-    //arg = arg.replace(/([\(\)%!\^<>&|;, ])/g, '^$1');
+    if (quote) {
+        arg = '"' + arg + '"';
+    // Or escape shell metacharacters:
+    } else {
+        arg = arg.replace(/([\(\)%!\^<>&|;, ])/g, '^$1');
+    }
 
     return arg;
 }
@@ -31,14 +33,19 @@ function escapeCommand(command) {
 }
 
 function spawn(command, args, options) {
+    var applyQuotes;
+
     // Use node's spawn if not on windows
     if (!isWin) {
         return cp.spawn(command, args, options);
     }
 
     // Escape command & arguments
+    applyQuotes = command !== 'echo';
     command = escapeCommand(command);
-    args = (args || []).map(escapeArg);
+    args = (args || []).map(function (arg) {
+        return escapeArg(arg, applyQuotes);
+    });
 
     // Use cmd.exe
     args = ['/c', '"' + command + (args.length ? ' ' + args.join(' ') : '') + '"'];
