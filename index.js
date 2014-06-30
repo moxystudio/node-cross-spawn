@@ -42,7 +42,7 @@ function spawn(command, args, options) {
     }
 
     // Escape command & arguments
-    applyQuotes = command !== 'echo';  // Do note quote arguments for the special "echo" command
+    applyQuotes = command !== 'echo';  // Do not quote arguments for the special "echo" command
     command = escapeCommand(command);
     args = (args || []).map(function (arg) {
         return escapeArg(arg, applyQuotes);
