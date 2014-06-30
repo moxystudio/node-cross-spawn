@@ -3,6 +3,11 @@
 A cross platform solution to node's spawn.
 
 
+## Installation
+
+`$ npm install cross-spawn`
+
+
 ## Why
 
 Node has issues when using spawn on Windows:
@@ -11,11 +16,6 @@ Node has issues when using spawn on Windows:
 - It does not allow you to run `echo` or `dir`
 
 All these issues are handled correctly by `cross-spawn`.
-
-
-## Installation
-
-`$ npm install cross-spawn`
 
 
 ## Usage
