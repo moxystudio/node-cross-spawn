@@ -16,6 +16,7 @@ Node has issues when using spawn on Windows:
 - It does not allow you to run `del` or `dir`
 
 All these issues are handled correctly by `cross-spawn`.
+There are some known modules, such as [win-spawn](https://github.com/ForbesLindesay/win-spawn), that try to solve this but they are either broken or provide faulty escaping of shell arguments.
 
 
 ## Usage
