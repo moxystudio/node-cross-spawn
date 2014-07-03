@@ -73,6 +73,19 @@ describe('cross-spawn', function () {
         });
     });
 
+    it('should handle non-string arguments', function (next) {
+        buffered('node', [
+            __dirname + '/fixtures/echo',
+            1234
+        ], function (err, data, code) {
+            expect(err).to.not.be.ok();
+            expect(code).to.be(0);
+            expect(data).to.equal('1234');
+
+            next();
+        });
+    });
+
     it('should handle arguments with spaces', function (next) {
         buffered('node', [
             __dirname + '/fixtures/echo',
