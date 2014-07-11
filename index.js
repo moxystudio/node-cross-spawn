@@ -62,4 +62,5 @@ function spawn(command, args, options) {
     return cp.spawn(command, args, options);
 }
 
+spawn.spawn = spawn;
 module.exports = spawn;
