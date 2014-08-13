@@ -44,20 +44,12 @@ function spawn(command, args, options) {
         return cp.spawn(command, args, options);
     }
 
-    // Escape command & arguments
-    applyQuotes = command !== 'echo';  // Do not quote arguments for the special "echo" command
-    command = escapeCommand(command);
-    args = (args || []).map(function (arg) {
-        return escapeArg(arg, applyQuotes);
-    });
-
     // Use cmd.exe
-    args = ['/s', '/c', '"' + command + (args.length ? ' ' + args.join(' ') : '') + '"'];
+    args = ['/s', '/c', command + (args && args.length ? ' ' + args.join(' ') : '')];
+
     command = 'cmd';
 
-    // Tell node's spawn that the arguments are already escaped
     options = options || {};
-    options.windowsVerbatimArguments = true;
 
     return cp.spawn(command, args, options);
 }
