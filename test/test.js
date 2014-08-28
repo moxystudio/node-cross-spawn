@@ -6,6 +6,16 @@ var expect = require('expect.js');
 var isWin = process.platform === 'win32';
 
 describe('cross-spawn', function () {
+    it('should support shebang in executables', function (next) {
+        buffered(__dirname + '/fixtures/shebang', function (err, data, code) {
+            expect(err).to.not.be.ok();
+            expect(code).to.be(0);
+            expect(data).to.equal('shebang works!');
+
+            next();
+        });
+    });
+
     it('should expand using PATHEXT properly', function (next) {
         if (!isWin) {
             return next();

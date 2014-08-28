@@ -1,3 +1,4 @@
+var fs = require('fs');
 var cp = require('child_process');
 
 var isWin = process.platform === 'win32';
@@ -36,8 +37,26 @@ function escapeCommand(command) {
     return command;
 }
 
+function readShebang(command) {
+    var buffer = new Buffer(150);
+    var fd;
+    var match;
+
+    try {
+        fd = fs.openSync(command, 'r');
+        fs.readSync(fd, buffer, 0, 150, 0);
+    } catch (e) {
+        return null;
+    }
+
+    match = buffer.toString().trim().match(/\#\!\/usr\/bin\/env ([^\r\n]+)/i);
+
+    return match && match[1];
+}
+
 function spawn(command, args, options) {
     var applyQuotes;
+    var shebang;
 
     // Use node's spawn if not on windows
     if (!isWin) {
@@ -50,6 +69,13 @@ function spawn(command, args, options) {
     args = (args || []).map(function (arg) {
         return escapeArg(arg, applyQuotes);
     });
+
+    // Detect & add support for shebangs in windows
+    shebang = readShebang(command);
+    if (shebang) {
+        args.unshift(command);
+        command = shebang;
+    }
 
     // Use cmd.exe
     args = ['/s', '/c', '"' + command + (args.length ? ' ' + args.join(' ') : '') + '"'];
