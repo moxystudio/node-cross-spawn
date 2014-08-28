@@ -3,6 +3,23 @@ var cp = require('child_process');
 
 var isWin = process.platform === 'win32';
 
+function readShebang(command) {
+    var buffer = new Buffer(150);
+    var fd;
+    var match;
+
+    try {
+        fd = fs.openSync(command, 'r');
+        fs.readSync(fd, buffer, 0, 150, 0);
+    } catch (e) {
+        return null;
+    }
+
+    match = buffer.toString().trim().match(/\#\!\/usr\/bin\/env ([^\r\n]+)/i);
+
+    return match && match[1];
+}
+
 function escapeArg(arg, quote) {
     // Convert to string
     arg = '' + arg;
@@ -37,23 +54,6 @@ function escapeCommand(command) {
     return command;
 }
 
-function readShebang(command) {
-    var buffer = new Buffer(150);
-    var fd;
-    var match;
-
-    try {
-        fd = fs.openSync(command, 'r');
-        fs.readSync(fd, buffer, 0, 150, 0);
-    } catch (e) {
-        return null;
-    }
-
-    match = buffer.toString().trim().match(/\#\!\/usr\/bin\/env ([^\r\n]+)/i);
-
-    return match && match[1];
-}
-
 function spawn(command, args, options) {
     var applyQuotes;
     var shebang;
@@ -63,12 +63,7 @@ function spawn(command, args, options) {
         return cp.spawn(command, args, options);
     }
 
-    // Escape command & arguments
-    applyQuotes = command !== 'echo';  // Do not quote arguments for the special "echo" command
-    command = escapeCommand(command);
-    args = (args || []).map(function (arg) {
-        return escapeArg(arg, applyQuotes);
-    });
+    args = args || [];
 
     // Detect & add support for shebangs
     shebang = readShebang(command);
@@ -76,6 +71,13 @@ function spawn(command, args, options) {
         args.unshift(command);
         command = shebang;
     }
+
+    // Escape command & arguments
+    applyQuotes = command !== 'echo';  // Do not quote arguments for the special "echo" command
+    command = escapeCommand(command);
+    args = args.map(function (arg) {
+        return escapeArg(arg, applyQuotes);
+    });
 
     // Use cmd.exe
     args = ['/s', '/c', '"' + command + (args.length ? ' ' + args.join(' ') : '') + '"'];
