@@ -14,6 +14,7 @@ Node has issues when using spawn on Windows:
 
 - It ignores [PATHEXT](https://github.com/joyent/node/issues/2318)
 - It does not allow you to run `del` or `dir`
+- It does not support [shebangs](http://pt.wikipedia.org/wiki/Shebang)
 
 All these issues are handled correctly by `cross-spawn`.
 There are some known modules, such as [win-spawn](https://github.com/ForbesLindesay/win-spawn), that try to solve this but they are either broken or provide faulty escaping of shell arguments.
