@@ -70,7 +70,7 @@ function spawn(command, args, options) {
         return escapeArg(arg, applyQuotes);
     });
 
-    // Detect & add support for shebangs in windows
+    // Detect & add support for shebangs
     shebang = readShebang(command);
     if (shebang) {
         args.unshift(command);
