@@ -1,23 +1,44 @@
 var fs = require('fs');
+var path = require('path');
 var cp = require('child_process');
+var LRU = require('lru-cache');
 
 var isWin = process.platform === 'win32';
+var shebangCache = LRU({ max: 50, maxAge: 30 * 1000 });
 
 function readShebang(command) {
-    var buffer = new Buffer(150);
+    var buffer;
     var fd;
     var match;
+    var shebang;
+
+    // Resolve command to an absolute path if it contains /
+    if (command.indexOf(path.sep) !== -1) {
+        command = path.resolve(command);
+    }
+
+    // Check if its resolved in the the cache
+    shebang = shebangCache.get(command);
+    if (shebang) {
+        return shebang;
+    }
+
+    // Read the first 150 bytes from the file
+    buffer = new Buffer(150);
 
     try {
         fd = fs.openSync(command, 'r');
         fs.readSync(fd, buffer, 0, 150, 0);
-    } catch (e) {
-        return null;
-    }
+    } catch (e) {}
 
+    // Check if it is a shebang
     match = buffer.toString().trim().match(/\#\!\/usr\/bin\/env ([^\r\n]+)/i);
+    shebang = match && match[1];
 
-    return match && match[1];
+    // Store the shebang in the cache
+    shebangCache.set(command, shebang);
+
+    return shebang;
 }
 
 function escapeArg(arg, quote) {
@@ -90,5 +111,5 @@ function spawn(command, args, options) {
     return cp.spawn(command, args, options);
 }
 
-spawn.spawn = spawn;
 module.exports = spawn;
+module.exports.spawn = spawn;

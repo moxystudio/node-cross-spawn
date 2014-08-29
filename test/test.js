@@ -3,8 +3,6 @@
 var buffered = require('./util/buffered');
 var expect = require('expect.js');
 
-var isWin = process.platform === 'win32';
-
 describe('cross-spawn', function () {
     it('should support shebang in executables', function (next) {
         buffered(__dirname + '/fixtures/shebang', function (err, data, code) {
@@ -17,10 +15,6 @@ describe('cross-spawn', function () {
     });
 
     it('should expand using PATHEXT properly', function (next) {
-        if (!isWin) {
-            return next();
-        }
-
         buffered(__dirname + '/fixtures/foo', function (err, data, code) {
             expect(err).to.not.be.ok();
             expect(code).to.be(0);
@@ -31,10 +25,6 @@ describe('cross-spawn', function () {
     });
 
     it('should handle commands with spaces', function (next) {
-        if (!isWin) {
-            return next();
-        }
-
         buffered(__dirname + '/fixtures/bar space', function (err, data, code) {
             expect(err).to.not.be.ok();
             expect(code).to.be(0);
@@ -45,14 +35,10 @@ describe('cross-spawn', function () {
     });
 
     it('should handle commands with special shell chars', function (next) {
-        if (!isWin) {
-            return next();
-        }
-
         buffered(__dirname + '/fixtures/()%!^&|;, ', function (err, data, code) {
             expect(err).to.not.be.ok();
             expect(code).to.be(0);
-            expect(data.trim()).to.equal('foo');
+            expect(data.trim()).to.equal('special');
 
             next();
         });

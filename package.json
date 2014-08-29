@@ -27,6 +27,9 @@
   ],
   "author": "IndigoUnited <hello@indigounited.com> (http://indigounited.com)",
   "license": "MIT",
+  "dependencies": {
+    "lru-cache": "^2.5.0"
+  },
   "devDependencies": {
     "expect.js": "^0.3.0",
     "mocha": "^1.20.1"

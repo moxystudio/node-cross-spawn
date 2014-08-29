@@ -1,2 +1,3 @@
-@echo off
+#!/bin/bash
+
 echo special
