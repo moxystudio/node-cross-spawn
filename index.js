@@ -17,7 +17,7 @@ function readShebang(command) {
         command = path.resolve(command);
     }
 
-    // Check if its resolved in the the cache
+    // Check if its resolved in the cache
     shebang = shebangCache.get(command);
     if (shebang) {
         return shebang;
