@@ -22,6 +22,8 @@
     "ext",
     "path-ext",
     "path_ext",
+    "shebang",
+    "hashbang",
     "cmd",
     "execute"
   ],
