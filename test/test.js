@@ -35,7 +35,7 @@ describe('cross-spawn', function () {
     });
 
     it('should handle commands with special shell chars', function (next) {
-        buffered(__dirname + '/fixtures/()%!^&|;, ', function (err, data, code) {
+        buffered(__dirname + '/fixtures/()%!^&;, ', function (err, data, code) {
             expect(err).to.not.be.ok();
             expect(code).to.be(0);
             expect(data.trim()).to.equal('special');
