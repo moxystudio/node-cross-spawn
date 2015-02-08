@@ -106,7 +106,6 @@ function spawn(command, args, options) {
     command = 'cmd';
 
     // Tell node's spawn that the arguments are already escaped
-    options = options || {};
     options.windowsVerbatimArguments = true;
 
     return cp.spawn(command, args, options);
