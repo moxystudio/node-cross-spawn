@@ -1,6 +1,6 @@
 {
   "name": "cross-spawn",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Cross platform child_process#spawn",
   "main": "index.js",
   "scripts": {
