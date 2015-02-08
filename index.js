@@ -103,7 +103,7 @@ function spawn(command, args, options) {
 
     // Use cmd.exe
     args = ['/s', '/c', '"' + command + (args.length ? ' ' + args.join(' ') : '') + '"'];
-    command = 'cmd';
+    command = process.env.comspec || 'cmd.exe';
 
     // Tell node's spawn that the arguments are already escaped
     options.windowsVerbatimArguments = true;
