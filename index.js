@@ -79,12 +79,13 @@ function spawn(command, args, options) {
     var applyQuotes;
     var shebang;
 
+    args = args || [];
+    options = options || {};
+
     // Use node's spawn if not on windows
     if (!isWin) {
         return cp.spawn(command, args, options);
     }
-
-    args = args || [];
 
     // Detect & add support for shebangs
     shebang = readShebang(command);

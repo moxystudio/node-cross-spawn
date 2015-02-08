@@ -4,7 +4,7 @@
   "description": "Cross platform child_process#spawn",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -R spec"
+    "test": "mocha --bail -R spec"
   },
   "bugs": {
     "url": "https://github.com/IndigoUnited/node-cross-spawn/issues/"
