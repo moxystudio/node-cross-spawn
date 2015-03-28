@@ -69,10 +69,10 @@ function escapeArg(arg, quote) {
 }
 
 function escapeCommand(command) {
-    // Escape shell metacharacters:
-    command = command.replace(/([\(\)%!\^<>&|;, ])/g, '^$1');
-
-    return command;
+    // Do not escape if this command is not dangerous..
+    // We do this so that commands like "echo" or "ifconfig" work
+    // Quoting them, will make them unnaccessible
+    return /^[a-z0-9_]+$/i.test(command) ? command : escapeArg(command, true);
 }
 
 function spawn(command, args, options) {
@@ -96,7 +96,7 @@ function spawn(command, args, options) {
 
     // Escape command & arguments
     applyQuotes = command !== 'echo';  // Do not quote arguments for the special "echo" command
-    command = escapeCommand(command);
+    command = escapeCommand(command, true);
     args = args.map(function (arg) {
         return escapeArg(arg, applyQuotes);
     });
