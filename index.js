@@ -96,7 +96,7 @@ function spawn(command, args, options) {
 
     // Escape command & arguments
     applyQuotes = command !== 'echo';  // Do not quote arguments for the special "echo" command
-    command = escapeCommand(command, true);
+    command = escapeCommand(command);
     args = args.map(function (arg) {
         return escapeArg(arg, applyQuotes);
     });
