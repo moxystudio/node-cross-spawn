@@ -72,7 +72,7 @@ function escapeCommand(command) {
     // Do not escape if this command is not dangerous..
     // We do this so that commands like "echo" or "ifconfig" work
     // Quoting them, will make them unnaccessible
-    return /^[a-z0-9_]+$/i.test(command) ? command : escapeArg(command, true);
+    return /^[a-z0-9_-]+$/i.test(command) ? command : escapeArg(command, true);
 }
 
 function spawn(command, args, options) {
