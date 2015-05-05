@@ -75,7 +75,7 @@ function escapeCommand(command) {
     return /^[a-z0-9_-]+$/i.test(command) ? command : escapeArg(command, true);
 }
 
-function spawn(command, args, options) {
+function spawnInternal(method, command, args, options) {
     var applyQuotes;
     var shebang;
 
@@ -84,7 +84,7 @@ function spawn(command, args, options) {
 
     // Use node's spawn if not on windows
     if (!isWin) {
-        return cp.spawn(command, args, options);
+        return cp[method](command, args, options);
     }
 
     // Detect & add support for shebangs
@@ -108,8 +108,17 @@ function spawn(command, args, options) {
     // Tell node's spawn that the arguments are already escaped
     options.windowsVerbatimArguments = true;
 
-    return cp.spawn(command, args, options);
+    return cp[method](command, args, options);
+}
+
+function spawn(command, args, options) {
+    return spawnInternal('spawn', command, args, options);
+}
+
+function spawnSync(command, args, options) {
+    return spawnInternal('spawnSync', command, args, options);
 }
 
 module.exports = spawn;
 module.exports.spawn = spawn;
+module.exports.sync = spawnSync;
