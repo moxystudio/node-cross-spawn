@@ -2,7 +2,7 @@
 
 var spawn = require('../../index');
 
-function buffered(command, args, options, callback) {
+function buffered(method, command, args, options, callback) {
     if (typeof options === 'function') {
         callback = options;
         options = null;
@@ -13,18 +13,24 @@ function buffered(command, args, options, callback) {
         args = options = null;
     }
 
-    var cp = spawn(command, args, options);
-    var data = '';
+    if (method === 'sync') {
+        var results = spawn.sync(command, args, options);
+        callback(results.error, results.stdout.toString(), results.status);
+    }
+    else {
+        var cp = spawn(command, args, options);
+        var data = '';
 
-    cp.stdout.on('data', function (buffer) {
-        data += buffer.toString();
-    });
+        cp.stdout.on('data', function(buffer) {
+            data += buffer.toString();
+        });
 
-    cp.on('error', callback);
+        cp.on('error', callback);
 
-    cp.on('close', function (code) {
-        callback(null, data, code);
-    });
+        cp.on('close', function(code) {
+            callback(null, data, code);
+        });
+    }
 }
 
 module.exports = buffered;
