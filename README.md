@@ -23,16 +23,16 @@ There are some known modules, such as [win-spawn](https://github.com/ForbesLinde
 
 ## Usage
 
-Exactly the same way as node's [`spawn`](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options) or [`spawnSync`](https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options), so it's a drop in replacement.
+Exactly the same way as node's [`spawn`](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options) or [`spawnSync`](https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options), so it's a drop in replacement. Note that the sync version is only available in `node >= 0.12`.
 
 ```javascript
-var spawn = require("cross-spawn");
+var spawn = require('cross-spawn');
 
 // Spawn NPM asynchronously
-var process = spawn("npm", ["list", "-g", "-depth" "0"], {stdio: "inherit"});
+var process = spawn('npm', ['list', '-g', '-depth' '0'], { stdio: 'inherit' });
 
 // Spawn NPM synchronously
-var results = spawn.sync("npm", ["list", "-g", "-depth" "0"], {stdio: "inherit"});
+var results = spawn.sync('npm', ['list', '-g', '-depth' '0'], { stdio: 'inherit' });
 ```
 
 

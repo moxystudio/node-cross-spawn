@@ -3,6 +3,10 @@
 var spawn = require('../../index');
 
 function buffered(method, command, args, options, callback) {
+    var cp;
+    var data;
+    var results;
+
     if (typeof options === 'function') {
         callback = options;
         options = null;
@@ -13,13 +17,13 @@ function buffered(method, command, args, options, callback) {
         args = options = null;
     }
 
-    if (method === 'sync') {
-        var results = spawn.sync(command, args, options);
+    if (method === 'spawnSync') {
+        results = spawn.sync(command, args, options);
         callback(results.error, results.stdout.toString(), results.status);
     }
     else {
-        var cp = spawn(command, args, options);
-        var data = '';
+        cp = spawn(command, args, options);
+        data = '';
 
         cp.stdout.on('data', function(buffer) {
             data += buffer.toString();
