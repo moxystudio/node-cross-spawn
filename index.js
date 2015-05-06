@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var cp = require('child_process');
 var LRU = require('lru-cache');
+var spawnSync = require('spawn-sync');
 
 var isWin = process.platform === 'win32';
 var shebangCache = LRU({ max: 50, maxAge: 30 * 1000 });
@@ -81,11 +82,10 @@ function spawnInternal(method, command, args, options) {
 
     args = args || [];
     options = options || {};
-    cp.spawnSync = require('spawn-sync');
 
     // Use node's spawn if not on windows
     if (!isWin) {
-        return cp[method](command, args, options);
+        return method(command, args, options);
     }
 
     // Detect & add support for shebangs
@@ -109,15 +109,15 @@ function spawnInternal(method, command, args, options) {
     // Tell node's spawn that the arguments are already escaped
     options.windowsVerbatimArguments = true;
 
-    return cp[method](command, args, options);
+    return method(command, args, options);
 }
 
 function spawn(command, args, options) {
-    return spawnInternal('spawn', command, args, options);
+    return spawnInternal(cp.spawn, command, args, options);
 }
 
 function spawnSync(command, args, options) {
-    return spawnInternal('spawnSync', command, args, options);
+    return spawnInternal(spawnSync, command, args, options);
 }
 
 module.exports = spawn;
