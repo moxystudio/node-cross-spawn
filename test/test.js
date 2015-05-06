@@ -1,16 +1,12 @@
 'use strict';
 
-var cp = require('child_process');
 var buffered = require('./util/buffered');
 var expect = require('expect.js');
 
 describe('cross-spawn', function () {
-    var methods = ['spawn'];
-
-    cp.spawnSync && methods.push('sync');
+    var methods = ['spawn', 'sync'];
 
     methods.forEach(function (method) {
-        if (cp.spawnSync)
         describe(method, function() {
             it('should support shebang in executables', function(next) {
                 buffered(method, __dirname + '/fixtures/shebang', function(err, data, code) {

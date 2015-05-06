@@ -81,6 +81,7 @@ function spawnInternal(method, command, args, options) {
 
     args = args || [];
     options = options || {};
+    cp.spawnSync = require('spawn-sync');
 
     // Use node's spawn if not on windows
     if (!isWin) {

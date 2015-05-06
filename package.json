@@ -30,7 +30,8 @@
   "author": "IndigoUnited <hello@indigounited.com> (http://indigounited.com)",
   "license": "MIT",
   "dependencies": {
-    "lru-cache": "^2.5.0"
+    "lru-cache": "^2.5.0",
+    "spawn-sync": "^1.0.6"
   },
   "devDependencies": {
     "expect.js": "^0.3.0",
