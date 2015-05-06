@@ -23,7 +23,7 @@ There are some known modules, such as [win-spawn](https://github.com/ForbesLinde
 
 ## Usage
 
-Exactly the same way as node's [`spawn`](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options) or [`spawnSync`](https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options), so it's a drop in replacement. Note that the sync version is only available in `node >= 0.12`.
+Exactly the same way as node's [`spawn`](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options) or [`spawnSync`](https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options), so it's a drop in replacement.
 
 ```javascript
 var spawn = require('cross-spawn');
