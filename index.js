@@ -2,7 +2,10 @@ var fs = require('fs');
 var path = require('path');
 var cp = require('child_process');
 var LRU = require('lru-cache');
-var sync = require('spawn-sync');
+
+try {
+  var sync = require('spawn-sync');
+} catch (e) {}
 
 var isWin = process.platform === 'win32';
 var shebangCache = LRU({ max: 50, maxAge: 30 * 1000 });
@@ -117,6 +120,9 @@ function spawn(command, args, options) {
 }
 
 function spawnSync(command, args, options) {
+    if (!sync) {
+        throw new Error('spawn-sync not installed.');
+    }
     return spawnInternal(sync, command, args, options);
 }
 
