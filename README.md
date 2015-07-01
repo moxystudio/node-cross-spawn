@@ -7,6 +7,8 @@ A cross platform solution to node's spawn and spawnSync.
 
 `$ npm install cross-spawn`
 
+If you're not using the `spawnSync`, you can use [cross-spawn-async](http://github.com/IndigoUnited/node-cross-spawn-async) which doesn't require a build toolchain, see [#18](https://github.com/IndigoUnited/node-cross-spawn/pull/18)
+
 
 ## Why
 
