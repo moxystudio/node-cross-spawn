@@ -1,10 +1,10 @@
 {
   "name": "cross-spawn",
   "version": "0.4.1",
-  "description": "Cross platform child_process#spawn",
+  "description": "Cross platform child_process#spawn and child_process#spawnSync",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --bail -R spec"
+    "test": "node test/prepare && mocha --bail -R spec"
   },
   "bugs": {
     "url": "https://github.com/IndigoUnited/node-cross-spawn/issues/"
@@ -15,6 +15,7 @@
   },
   "keywords": [
     "spawn",
+    "spawnSync",
     "windows",
     "cross",
     "platform",
@@ -30,11 +31,12 @@
   "author": "IndigoUnited <hello@indigounited.com> (http://indigounited.com)",
   "license": "MIT",
   "dependencies": {
-    "lru-cache": "^2.5.0",
+    "cross-spawn-async": "^0.1.0",
     "spawn-sync": "^1.0.6"
   },
   "devDependencies": {
     "expect.js": "^0.3.0",
-    "mocha": "^1.20.1"
+    "glob": "^5.0.12",
+    "mocha": "^2.2.5"
   }
 }

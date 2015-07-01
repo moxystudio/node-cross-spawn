@@ -1,7 +1,7 @@
 'use strict';
 
 var buffered = require('./util/buffered');
-var expect = require('expect.js');
+var expect   = require('expect.js');
 
 describe('cross-spawn', function () {
     var methods = ['spawn', 'sync'];
