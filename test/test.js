@@ -209,18 +209,16 @@ describe('cross-spawn', function () {
                     expect(code).to.be(0);
 
                     buffered(method, __dirname + '/fixtures/foo', {
-                        stdio: ['pipe', 'ignore', 'pipe'],
+                        stdio: ['pipe', 'pipe', 'pipe'],
                     }, function (err, data, code) {
                         expect(err).to.not.be.ok();
                         expect(code).to.be(0);
-                        expect(data).to.be(null);
 
                         buffered(method, __dirname + '/fixtures/foo', null, {
-                            stdio: ['pipe', 'ignore', 'pipe'],
+                            stdio: ['pipe', 'pipe', 'pipe'],
                         }, function (err, data, code) {
                             expect(err).to.not.be.ok();
                             expect(code).to.be(0);
-                            expect(data).to.be(null);
 
                             next();
                         });
