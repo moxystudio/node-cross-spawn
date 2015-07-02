@@ -45,7 +45,7 @@ function spawnSync(command, args, options) {
     result = sync(parsed.command, parsed.args, parsed.options);
 
     // Analyze if the command does not exists, see: https://github.com/IndigoUnited/node-cross-spawn/issues/16
-    result.error = verifySyncENOENT(result.status, parsed);
+    result.error = result.error || verifySyncENOENT(result.status, parsed);
 
     return result;
 }
