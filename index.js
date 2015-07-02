@@ -20,7 +20,7 @@ function verifySyncENOENT(status, parsed) {
     // If we are in node 10, then we are using spawn-sync; if it exited
     // with -1 it probably means that the command does not exist
     if (isNode10 && status === -1) {
-        parsed.file = isWin ? parsed.file : resolveCommand(parsed.originalCommand);
+        parsed.file = isWin ? parsed.file : resolveCommand(parsed.original);
 
         if (!parsed.file) {
             err = enoent.notFoundError(parsed.original, 'spawnSync');
