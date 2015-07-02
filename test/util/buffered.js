@@ -17,15 +17,16 @@ function buffered(method, command, args, options, callback) {
         args = options = null;
     }
 
-    if (method === 'spawnSync') {
+    if (method === 'sync') {
         results = spawn.sync(command, args, options);
-        callback(results.error, results.stdout.toString(), results.status);
+        callback(results.error, results.stdout ? results.stdout.toString() : null, results.status);
     }
     else {
         cp = spawn(command, args, options);
-        data = '';
+        data = null;
 
-        cp.stdout.on('data', function(buffer) {
+        cp.stdout && cp.stdout.on('data', function(buffer) {
+            data = data || '';
             data += buffer.toString();
         });
 
