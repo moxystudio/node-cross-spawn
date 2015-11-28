@@ -7,6 +7,16 @@ var spawn    = require('../');
 
 var isWin    = process.platform === 'win32';
 
+// Fix AppVeyor tests because Git bin folder is in PATH and it has a "echo" program there
+if (isWin) {
+    process.env.PATH = process.env.PATH
+    .split(path.delimiter)
+    .filter(function (entry) {
+        return !/\\git\\bin$/i.test(path.normalize(entry));
+    })
+    .join(path.delimiter);
+}
+
 describe('cross-spawn', function () {
     var methods = ['spawn', 'sync'];
 
