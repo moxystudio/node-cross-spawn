@@ -28,4 +28,5 @@ build: off
 test_script:
   - node --version
   - npm --version
-  - npm test --no-color
+  - ps: npm test --no-color  # PowerShell
+  - cmd: npm test --no-color
