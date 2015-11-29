@@ -34,8 +34,8 @@ describe('cross-spawn', function () {
 
             after(function (next) {
                 rimraf(__dirname + '/tmp', function (err) {
-                    // Ignore ENOTEMPTY on windows.. RIMRAF was giving problems
-                    next(err && err.code === 'ENOTEMPTY' ? null : err);
+                    // Ignore errors, RIMRAF was giving problems on windows
+                    next(null);
                 });
             });
 
@@ -104,10 +104,10 @@ describe('cross-spawn', function () {
             });
 
             it('should support shebang in executables with extensions', function (next) {
-                fs.writeFileSync(__dirname + '/tmp/shebang.js', '#!/usr/bin/env node\n\nprocess.stdout.write(\'shebang with extension\');', { mode: parseInt('0777', 8) });
+                fs.writeFileSync(__dirname + '/tmp/shebang_' + method + '.js', '#!/usr/bin/env node\n\nprocess.stdout.write(\'shebang with extension\');', { mode: parseInt('0777', 8) });
                 process.env.PATH = path.normalize(__dirname + '/tmp/') + path.delimiter + process.env.PATH;
 
-                buffered(method, __dirname + '/tmp/shebang.js', function (err, data, code) {
+                buffered(method, __dirname + '/tmp/shebang_' + method + '.js', function (err, data, code) {
                     expect(err).to.not.be.ok();
                     expect(code).to.be(0);
                     expect(data).to.equal('shebang with extension');
@@ -115,7 +115,7 @@ describe('cross-spawn', function () {
                     // Test if the actual shebang file is resolved against the PATH
                     process.env.PATH = path.normalize(__dirname + '/fixtures/') + path.delimiter + process.env.PATH;
 
-                    buffered(method, 'shebang.js', function (err, data, code) {
+                    buffered(method, 'shebang_' + method + '.js', function (err, data, code) {
                         expect(err).to.not.be.ok();
                         expect(code).to.be(0);
                         expect(data).to.equal('shebang with extension');
