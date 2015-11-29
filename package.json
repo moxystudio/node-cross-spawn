@@ -37,6 +37,9 @@
   "devDependencies": {
     "expect.js": "^0.3.0",
     "glob": "^5.0.12",
-    "mocha": "^2.2.5"
+    "mkdirp": "^0.5.1",
+    "mocha": "^2.2.5",
+    "rimraf": "^2.4.4",
+    "which": "^1.2.0"
   }
 }

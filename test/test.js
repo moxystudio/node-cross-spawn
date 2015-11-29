@@ -1,7 +1,11 @@
 'use strict';
 
+var fs       = require('fs');
 var path     = require('path');
 var expect   = require('expect.js');
+var rimraf   = require('rimraf');
+var mkdirp   = require('mkdirp');
+var which    = require('which');
 var buffered = require('./util/buffered');
 var spawn    = require('../');
 
@@ -22,24 +26,99 @@ describe('cross-spawn', function () {
 
     methods.forEach(function (method) {
         describe(method, function() {
-            it('should support shebang in executables', function (next) {
-                buffered(method, __dirname + '/fixtures/shebang', function (err, data, code) {
-                    var envPath;
+            var originalPath = process.env.PATH;
 
+            before(function () {
+                mkdirp.sync(__dirname + '/tmp');
+            });
+
+            after(function (next) {
+                // Need to wrap this in a set timeout otherwise it won't work on WINDOWS properly
+                setTimeout(function () {
+                    rimraf(__dirname + '/tmp', next);
+                }, 100);
+            });
+
+            afterEach(function () {
+                process.env.PATH = originalPath;
+            });
+
+            it('should support shebang in executables with /usr/bin/env', function (next) {
+                buffered(method, __dirname + '/fixtures/shebang', function (err, data, code) {
                     expect(err).to.not.be.ok();
                     expect(code).to.be(0);
                     expect(data).to.equal('shebang works!');
 
                     // Test if the actual shebang file is resolved against the PATH
-                    envPath = process.env.PATH;
                     process.env.PATH = path.normalize(__dirname + '/fixtures/') + path.delimiter + process.env.PATH;
 
                     buffered(method, 'shebang', function (err, data, code) {
-                        process.env.PATH = envPath;
-
                         expect(err).to.not.be.ok();
                         expect(code).to.be(0);
                         expect(data).to.equal('shebang works!');
+
+                        next();
+                    });
+                });
+            });
+
+            it('should support shebang in executables without /usr/bin/env', function (next) {
+                var nodejs = which.sync('node');
+                var file = __dirname + '/fixtures/shebang_noenv';
+
+                fs.writeFileSync(file, '#!' + nodejs + '\n\nprocess.stdout.write(\'shebang works!\');', {
+                    mode: parseInt('0777', 8)
+                });
+
+                buffered(method, file, function (err, data, code) {
+                    expect(err).to.not.be.ok();
+                    expect(code).to.be(0);
+                    expect(data).to.equal('shebang works!');
+
+                    // Test if the actual shebang file is resolved against the PATH
+                    process.env.PATH = path.normalize(__dirname + '/fixtures/') + path.delimiter + process.env.PATH;
+
+                    buffered(method, 'shebang_noenv', function (err, data, code) {
+                        expect(err).to.not.be.ok();
+                        expect(code).to.be(0);
+                        expect(data).to.equal('shebang works!');
+
+                        next();
+                    });
+                });
+            });
+
+            it('should support shebang in executables with relative path', function (next) {
+                var executable = './' + path.relative(process.cwd(), __dirname + '/fixtures/shebang');
+
+                fs.writeFileSync(__dirname + '/tmp/shebang', '#!/usr/bin/env node\n\nprocess.stdout.write(\'yeah\');', { mode: parseInt('0777', 8) });
+                process.env.PATH = path.normalize(__dirname + '/tmp/') + path.delimiter + process.env.PATH;
+
+                buffered(method, executable, function (err, data, code) {
+                    expect(err).to.not.be.ok();
+                    expect(code).to.be(0);
+                    expect(data).to.equal('shebang works!');
+
+                    next();
+                });
+            });
+
+            it('should support shebang in executables with extensions', function (next) {
+                fs.writeFileSync(__dirname + '/tmp/shebang.js', '#!/usr/bin/env node\n\nprocess.stdout.write(\'shebang with extension\');', { mode: parseInt('0777', 8) });
+                process.env.PATH = path.normalize(__dirname + '/tmp/') + path.delimiter + process.env.PATH;
+
+                buffered(method, __dirname + '/tmp/shebang.js', function (err, data, code) {
+                    expect(err).to.not.be.ok();
+                    expect(code).to.be(0);
+                    expect(data).to.equal('shebang with extension');
+
+                    // Test if the actual shebang file is resolved against the PATH
+                    process.env.PATH = path.normalize(__dirname + '/fixtures/') + path.delimiter + process.env.PATH;
+
+                    buffered(method, 'shebang.js', function (err, data, code) {
+                        expect(err).to.not.be.ok();
+                        expect(code).to.be(0);
+                        expect(data).to.equal('shebang with extension');
 
                         next();
                     });
