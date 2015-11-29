@@ -4,7 +4,8 @@ var spawn = require('../../index');
 
 function buffered(method, command, args, options, callback) {
     var cp;
-    var data;
+    var stdout;
+    var stderr;
     var results;
 
     if (typeof options === 'function') {
@@ -23,17 +24,23 @@ function buffered(method, command, args, options, callback) {
     }
     else {
         cp = spawn(command, args, options);
-        data = null;
+        stdout = stderr = null;
 
         cp.stdout && cp.stdout.on('data', function (buffer) {
-            data = data || '';
-            data += buffer.toString();
+            stdout = stdout || '';
+            stdout += buffer.toString();
+        });
+
+        cp.stderr && cp.stderr.on('data', function (buffer) {
+            stderr = stderr || '';
+            stderr += buffer.toString();
         });
 
         cp.on('error', callback);
 
         cp.on('close', function (code) {
-            callback(null, data, code);
+            code !== 0 && stderr && console.warn(stderr);
+            callback(null, stdout, code);
         });
     }
 }
