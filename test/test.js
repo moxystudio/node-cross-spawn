@@ -33,6 +33,9 @@ describe('cross-spawn', function () {
             });
 
             after(function (next) {
+                // Give it some time, RIMRAF was giving problems on windows
+                this.timeout(10000);
+
                 rimraf(__dirname + '/tmp', function (err) {
                     // Ignore errors, RIMRAF was giving problems on windows
                     next(null);
