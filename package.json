@@ -36,10 +36,10 @@
   },
   "devDependencies": {
     "expect.js": "^0.3.0",
-    "glob": "^5.0.12",
+    "glob": "^6.0.3",
     "mkdirp": "^0.5.1",
     "mocha": "^2.2.5",
-    "rimraf": "^1.0.9",
-    "which": "^1.2.0"
+    "rimraf": "^2.5.0",
+    "which": "^1.2.1"
   }
 }
