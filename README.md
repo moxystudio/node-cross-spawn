@@ -1,4 +1,18 @@
-# cross-spawn [![Build Status](https://travis-ci.org/IndigoUnited/node-cross-spawn.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-cross-spawn) [![Build status](https://ci.appveyor.com/api/projects/status/ckt1qfvke6mc6pe5/branch/master?svg=true)](https://ci.appveyor.com/project/satazor/node-cross-spawn/branch/master)
+# cross-spawn
+
+[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Build status][appveyor-image]][appveyor-url] [![Dependency status][david-dm-image]][david-dm-url] [![Dev Dependency status][david-dm-dev-image]][david-dm-dev-url]
+
+[npm-url]:https://npmjs.org/package/cross-spawn
+[downloads-image]:http://img.shields.io/npm/dm/cross-spawn.svg
+[npm-image]:http://img.shields.io/npm/v/cross-spawn.svg
+[travis-url]:https://travis-ci.org/IndigoUnited/node-cross-spawn
+[travis-image]:http://img.shields.io/travis/IndigoUnited/node-cross-spawn.svg
+[appveyor-url]:https://ci.appveyor.com/project/satazor/node-cross-spawn
+[appveyor-image]:https://img.shields.io/appveyor/ci/IndigoUnited/node-cross-spawn.svg
+[david-dm-url]:https://david-dm.org/IndigoUnited/node-cross-spawn
+[david-dm-image]:https://img.shields.io/david/IndigoUnited/node-cross-spawn.svg
+[david-dm-dev-url]:https://david-dm.org/IndigoUnited/node-cross-spawn#info=devDependencies
+[david-dm-dev-image]:https://img.shields.io/david/dev/IndigoUnited/node-cross-spawn.svg
 
 A cross platform solution to node's spawn and spawnSync.
 
