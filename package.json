@@ -32,7 +32,7 @@
   "license": "MIT",
   "dependencies": {
     "cross-spawn-async": "^2.0.0",
-    "spawn-sync": "1.0.13"
+    "spawn-sync": "1.0.15"
   },
   "devDependencies": {
     "expect.js": "^0.3.0",
