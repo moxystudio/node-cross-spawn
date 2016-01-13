@@ -4,7 +4,7 @@
   "description": "Cross platform child_process#spawn and child_process#spawnSync",
   "main": "index.js",
   "scripts": {
-    "test": "node test/prepare && mocha --bail -R spec test/test"
+    "test": "node test/prepare && mocha --bail test/test"
   },
   "bugs": {
     "url": "https://github.com/IndigoUnited/node-cross-spawn/issues/"
