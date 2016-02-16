@@ -1,6 +1,6 @@
 'use strict';
 
-var sync           = require('spawn-sync');
+var sync           = require('child_process').spawnSync;
 var crossSpawn     = require('cross-spawn-async');
 var parse          = require('cross-spawn-async/lib/parse');
 var enoent         = require('cross-spawn-async/lib/enoent');
@@ -35,6 +35,17 @@ function spawn(command, args, options) {
 }
 
 function spawnSync(command, args, options) {
+    if (!sync) {
+        try {
+            sync = require('spawn-sync');
+        } catch (ex) {
+            throw new Error(
+                'In order to use spawnSync on node 0.10 or older, you must ' +
+                'install spawn-sync:\n\n' +
+                '  npm install spawn-sync --save'
+            );
+        }
+    }
     var parsed;
     var result;
 
