@@ -1,5 +1,6 @@
-var glob = require('glob');
-var fs   = require('fs');
+var glob  = require('glob');
+var fs    = require('fs');
+var spawn = require('../');
 
 var fixturesDir = __dirname + '/fixtures';
 
@@ -12,3 +13,8 @@ glob.sync('prepare_*', { cwd: __dirname + '/fixtures' }).forEach(function (file)
 
     process.stdout.write('Copied "' + file + '" to "' + finalFile + '"\n');
 });
+
+if (/^v0\.10\./.test(process.version)) {
+    console.log('installing');
+    spawn('npm', ['install', 'spawn-sync'], {stdio: 'inherit'});
+}
