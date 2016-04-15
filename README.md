@@ -45,7 +45,7 @@ Exactly the same way as node's [`spawn`](https://nodejs.org/api/child_process.ht
 var spawn = require('cross-spawn');
 
 // Spawn NPM asynchronously
-var process = spawn('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit' });
+var child = spawn('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit' });
 
 // Spawn NPM synchronously
 var results = spawn.sync('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit' });
