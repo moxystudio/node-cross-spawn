@@ -25,6 +25,7 @@ If you are using `spawnSync` on node 0.10 or older, you will also need to instal
 
 `$ npm install spawn-sync`
 
+
 ## Why
 
 Node has issues when using spawn on Windows:
