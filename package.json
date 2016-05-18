@@ -33,7 +33,7 @@
   "license": "MIT",
   "dependencies": {
     "lru-cache": "^4.0.1",
-    "which": "^1.2.8"
+    "which": "^1.2.9"
   },
   "devDependencies": {
     "@satazor/eslint-config": "^2.3.0",
