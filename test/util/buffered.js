@@ -21,8 +21,7 @@ function buffered(method, command, args, options, callback) {
     if (method === 'sync') {
         results = spawn.sync(command, args, options);
         callback(results.error, results.stdout ? results.stdout.toString() : null, results.status);
-    }
-    else {
+    } else {
         cp = spawn(command, args, options);
         stdout = stderr = null;
 

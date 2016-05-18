@@ -4,7 +4,8 @@
   "description": "Cross platform child_process#spawn and child_process#spawnSync",
   "main": "index.js",
   "scripts": {
-    "test": "node test/prepare && mocha --bail test/test"
+    "test": "node test/prepare && mocha --bail test/test",
+    "lint": "eslint '{*.js,lib/**/*.js,test/**/*.js}'"
   },
   "bugs": {
     "url": "https://github.com/IndigoUnited/node-cross-spawn/issues/"
@@ -35,6 +36,8 @@
     "spawn-sync": "^1.0.15"
   },
   "devDependencies": {
+    "@satazor/eslint-config": "^2.3.0",
+    "eslint": "^2.10.2",
     "expect.js": "^0.3.0",
     "glob": "^7.0.0",
     "mkdirp": "^0.5.1",

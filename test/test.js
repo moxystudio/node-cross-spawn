@@ -1,15 +1,15 @@
 'use strict';
 
-var fs       = require('fs');
-var path     = require('path');
-var expect   = require('expect.js');
-var rimraf   = require('rimraf');
-var mkdirp   = require('mkdirp');
-var which    = require('which');
+var fs = require('fs');
+var path = require('path');
+var expect = require('expect.js');
+var rimraf = require('rimraf');
+var mkdirp = require('mkdirp');
+var which = require('which');
 var buffered = require('./util/buffered');
-var spawn    = require('../');
+var spawn = require('../');
 
-var isWin    = process.platform === 'win32';
+var isWin = process.platform === 'win32';
 
 // Fix AppVeyor tests because Git bin folder is in PATH and it has a "echo" program there
 if (isWin) {
@@ -25,7 +25,7 @@ describe('cross-spawn', function () {
     var methods = ['spawn', 'sync'];
 
     methods.forEach(function (method) {
-        describe(method, function() {
+        describe(method, function () {
             var originalPath = process.env.PATH;
 
             before(function () {
@@ -36,7 +36,7 @@ describe('cross-spawn', function () {
                 // Give it some time, RIMRAF was giving problems on windows
                 this.timeout(10000);
 
-                rimraf(__dirname + '/tmp', function (err) {
+                rimraf(__dirname + '/tmp', function () {
                     // Ignore errors, RIMRAF was giving problems on windows
                     next(null);
                 });
@@ -70,7 +70,7 @@ describe('cross-spawn', function () {
                 var file = __dirname + '/fixtures/shebang_noenv';
 
                 fs.writeFileSync(file, '#!' + nodejs + '\n\nprocess.stdout.write(\'shebang works!\');', {
-                    mode: parseInt('0777', 8)
+                    mode: parseInt('0777', 8),
                 });
 
                 buffered(method, file, function (err, data, code) {
@@ -94,7 +94,24 @@ describe('cross-spawn', function () {
             it('should support shebang in executables with relative path', function (next) {
                 var executable = './' + path.relative(process.cwd(), __dirname + '/fixtures/shebang');
 
-                fs.writeFileSync(__dirname + '/tmp/shebang', '#!/usr/bin/env node\n\nprocess.stdout.write(\'yeah\');', { mode: parseInt('0777', 8) });
+                fs.writeFileSync(__dirname + '/tmp/shebang', '#!/usr/bin/env node\n\nprocess.stdout.write(\'yeah\');',
+                    { mode: parseInt('0777', 8) });
+                process.env.PATH = path.normalize(__dirname + '/tmp/') + path.delimiter + process.env.PATH;
+
+                buffered(method, executable, function (err, data, code) {
+                    expect(err).to.not.be.ok();
+                    expect(code).to.be(0);
+                    expect(data).to.equal('shebang works!');
+
+                    next();
+                });
+            });
+
+            it('should support shebang in executables with relative path that starts with `..`', function (next) {
+                var executable = '../' + path.basename(process.cwd()) + '/' + path.relative(process.cwd(), __dirname + '/fixtures/shebang');
+
+                fs.writeFileSync(__dirname + '/tmp/shebang', '#!/usr/bin/env node\n\nprocess.stdout.write(\'yeah\');',
+                    { mode: parseInt('0777', 8) });
                 process.env.PATH = path.normalize(__dirname + '/tmp/') + path.delimiter + process.env.PATH;
 
                 buffered(method, executable, function (err, data, code) {
@@ -107,7 +124,8 @@ describe('cross-spawn', function () {
             });
 
             it('should support shebang in executables with extensions', function (next) {
-                fs.writeFileSync(__dirname + '/tmp/shebang_' + method + '.js', '#!/usr/bin/env node\n\nprocess.stdout.write(\'shebang with extension\');', { mode: parseInt('0777', 8) });
+                fs.writeFileSync(__dirname + '/tmp/shebang_' + method + '.js', '#!/usr/bin/env node\n\nprocess.stdout.write(\'shebang with \
+extension\');', { mode: parseInt('0777', 8) });
                 process.env.PATH = path.normalize(__dirname + '/tmp/') + path.delimiter + process.env.PATH;
 
                 buffered(method, __dirname + '/tmp/shebang_' + method + '.js', function (err, data, code) {
@@ -177,7 +195,7 @@ describe('cross-spawn', function () {
                     __dirname + '/fixtures/echo',
                     'foo',
                     '',
-                    'bar'
+                    'bar',
                 ], function (err, data, code) {
                     expect(err).to.not.be.ok();
                     expect(code).to.be(0);
@@ -186,7 +204,7 @@ describe('cross-spawn', function () {
                     buffered(method, 'echo', [
                         'foo',
                         '',
-                        'bar'
+                        'bar',
                     ], function (err, data, code) {
                         expect(err).to.not.be.ok();
                         expect(code).to.be(0);
@@ -200,7 +218,7 @@ describe('cross-spawn', function () {
             it('should handle non-string arguments', function (next) {
                 buffered(method, 'node', [
                     __dirname + '/fixtures/echo',
-                    1234
+                    1234,
                 ], function (err, data, code) {
                     expect(err).to.not.be.ok();
                     expect(code).to.be(0);
@@ -214,7 +232,7 @@ describe('cross-spawn', function () {
                 buffered(method, 'node', [
                     __dirname + '/fixtures/echo',
                     'I am',
-                    'André Cruz'
+                    'André Cruz',
                 ], function (err, data, code) {
                     expect(err).to.not.be.ok();
                     expect(code).to.be(0);
@@ -229,7 +247,7 @@ describe('cross-spawn', function () {
                     __dirname + '/fixtures/echo',
                     'foo',
                     '\\"',
-                    'bar'
+                    'bar',
                 ], function (err, data, code) {
                     expect(err).to.not.be.ok();
                     expect(code).to.be(0);
@@ -244,7 +262,7 @@ describe('cross-spawn', function () {
                     __dirname + '/fixtures/echo',
                     'foo',
                     'bar\\',
-                    'baz'
+                    'baz',
                 ], function (err, data, code) {
                     expect(err).to.not.be.ok();
                     expect(code).to.be(0);
@@ -269,7 +287,7 @@ describe('cross-spawn', function () {
                     '|;',
                     'foo',
                     ', ',
-                    'foo'
+                    'foo',
                 ], function (err, data, code) {
                     expect(err).to.not.be.ok();
                     expect(code).to.be(0);
@@ -298,7 +316,7 @@ describe('cross-spawn', function () {
                         '|;',
                         'foo',
                         ', ',
-                        'foo'
+                        'foo',
                     ], function (err, data, code) {
                         expect(err).to.not.be.ok();
                         expect(code).to.be(0);
@@ -432,7 +450,7 @@ describe('cross-spawn', function () {
 
                 if (method === 'spawn') {
                     spawned
-                    .on('error', function (err) {
+                    .on('error', function () {
                         spawned.removeAllListeners();
                         clearTimeout(timeout);
                         next(new Error('Should not emit error'));
@@ -462,7 +480,7 @@ describe('cross-spawn', function () {
 
                 if (method === 'spawn') {
                     spawned
-                    .on('error', function (err) {
+                    .on('error', function () {
                         spawned.removeAllListeners();
                         clearTimeout(timeout);
                         next(new Error('Should not emit error'));

@@ -1,12 +1,12 @@
 'use strict';
 
-var sync           = require('spawn-sync');
-var crossSpawn     = require('cross-spawn-async');
-var parse          = require('cross-spawn-async/lib/parse');
-var enoent         = require('cross-spawn-async/lib/enoent');
+var sync = require('spawn-sync');
+var crossSpawn = require('cross-spawn-async');
+var parse = require('cross-spawn-async/lib/parse');
+var enoent = require('cross-spawn-async/lib/enoent');
 var resolveCommand = require('cross-spawn-async/lib/resolveCommand');
 
-var isWin    = process.platform === 'win32';
+var isWin = process.platform === 'win32';
 var isNode10 = process.version.indexOf('v0.10.') === 0;
 
 function verifySyncENOENT(status, parsed) {
@@ -50,6 +50,6 @@ function spawnSync(command, args, options) {
     return result;
 }
 
-module.exports       = spawn;
+module.exports = spawn;
 module.exports.spawn = spawn;
-module.exports.sync  = spawnSync;
+module.exports.sync = spawnSync;
