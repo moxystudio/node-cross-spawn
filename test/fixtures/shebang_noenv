@@ -1,3 +1,0 @@
-#!/usr/local/bin/node
-
-process.stdout.write('shebang works!');

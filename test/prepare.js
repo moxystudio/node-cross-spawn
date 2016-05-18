@@ -2,7 +2,7 @@
 
 var glob = require('glob');
 var fs = require('fs');
-var crossSpawn = require('../');
+var buffered = require('./util/buffered');
 
 var fixturesDir = __dirname + '/fixtures';
 
@@ -18,5 +18,11 @@ glob.sync('prepare_*', { cwd: __dirname + '/fixtures' }).forEach(function (file)
 
 if (/^v0\.10\./.test(process.version)) {
     process.stdout.write('Installing spawn-sync..\n');
-    crossSpawn.sync('npm', ['install', 'spawn-sync'], { stdio: 'inherit' });
+    buffered('spawn', 'npm', ['install', 'spawn-sync'], { stdio: 'inherit' }, function (err) {
+        if (err) {
+            throw err;
+        }
+
+        process.exit();
+    });
 }
