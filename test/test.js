@@ -500,6 +500,19 @@ extension\');', { mode: parseInt('0777', 8) });
                     next();
                 }
             });
+
+            it('should NOT spawn a shell for a .exe', function (next) {
+                if (!isWin) {
+                    next();
+                    return;
+                }
+                buffered(method, __dirname + '/fixtures/win-ppid.js', function (err, data, code) {
+                    expect(err).to.not.be.ok();
+                    expect(code).to.be(0);
+                    expect(data.trim()).to.equal('' + process.pid);
+                    next();
+                });
+            });
         });
     });
 });
