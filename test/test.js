@@ -7,6 +7,7 @@ var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
 var which = require('which');
 var buffered = require('./util/buffered');
+var hasBrokenSpawn = require('../lib/hasBrokenSpawn');
 var spawn = require('../');
 
 var isWin = process.platform === 'win32';
@@ -500,6 +501,28 @@ extension\');', { mode: parseInt('0777', 8) });
                     next();
                 }
             });
+
+            if (isWin) {
+                if (hasBrokenSpawn) {
+                    it('should spawn a shell for a .exe on old Node', function (next) {
+                        buffered(method, __dirname + '/fixtures/win-ppid.js', function (err, data, code) {
+                            expect(err).to.not.be.ok();
+                            expect(code).to.be(0);
+                            expect(data.trim()).to.not.equal('' + process.pid);
+                            next();
+                        });
+                    });
+                } else {
+                    it('should NOT spawn a shell for a .exe', function (next) {
+                        buffered(method, __dirname + '/fixtures/win-ppid.js', function (err, data, code) {
+                            expect(err).to.not.be.ok();
+                            expect(code).to.be(0);
+                            expect(data.trim()).to.equal('' + process.pid);
+                            next();
+                        });
+                    });
+                }
+            }
         });
     });
 });
