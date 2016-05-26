@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var spawnSync = require('child_process').spawnSync;
+var spawnSync = require('child_process').spawnSync || require('spawn-sync');
 
 function ppidSync() {
     var res = spawnSync('wmic',
