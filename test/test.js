@@ -6,7 +6,9 @@ var expect = require('expect.js');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
 var which = require('which');
+var os = require('os');
 var buffered = require('./util/buffered');
+var isNodeVersionLt = require('./util/is-node-version-lt');
 var hasBrokenSpawn = require('../lib/hasBrokenSpawn');
 var spawn = require('../');
 
@@ -325,6 +327,22 @@ extension\');', { mode: parseInt('0777', 8) });
 
                         next();
                     });
+                });
+            });
+
+            it('passes commands through when a shell is forced', function (next) {
+                if (isNodeVersionLt(6)) { // Node < 6 has no shell option
+                    return this.skip();
+                }
+
+                buffered(method, 'echo', [
+                    'hello',
+                ], { shell: true }, function (err, data, code) {
+                    expect(err).to.not.be.ok();
+                    expect(code).to.be(0);
+                    expect(data).to.equal('hello' + os.EOL);
+
+                    next();
                 });
             });
 
