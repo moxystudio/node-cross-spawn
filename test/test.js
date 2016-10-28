@@ -530,6 +530,13 @@ extension\');', { mode: parseInt('0777', 8) });
                             next();
                         });
                     });
+
+                    it('throws when trying to spawn without a shell for a .exe on old Node', function (next) {
+                        expect(function () {
+                            buffered(method, __dirname + '/fixtures/win-ppid.js', { shell: false }, function () {});
+                        }).to.throwException(/without shell is not supported/);
+                        next();
+                    });
                 } else {
                     it('should NOT spawn a shell for a .exe', function (next) {
                         buffered(method, __dirname + '/fixtures/win-ppid.js', function (err, data, code) {
@@ -539,7 +546,23 @@ extension\');', { mode: parseInt('0777', 8) });
                             next();
                         });
                     });
+
+                    it('allows to disable spawning with a shell for a .exe', function (next) {
+                        buffered(method, __dirname + '/fixtures/win-ppid.js', { shell: false }, function (err, data, code) {
+                            expect(err).to.not.be.ok();
+                            expect(code).to.be(0);
+                            expect(data.trim()).to.equal('' + process.pid);
+                            next();
+                        });
+                    });
                 }
+
+                it('throws when trying to spawn without a shell when a shell is required', function (next) {
+                    expect(function () {
+                        buffered(method, __dirname + '/fixtures/foo', { shell: false }, function () {});
+                    }).to.throwException(/without shell is not supported/);
+                    next();
+                });
             }
         });
     });
