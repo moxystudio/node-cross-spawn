@@ -6,6 +6,7 @@ var expect = require('expect.js');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
 var which = require('which');
+var ps = require('ps-node');
 var buffered = require('./util/buffered');
 var hasBrokenSpawn = require('../lib/hasBrokenSpawn');
 var spawn = require('../');
@@ -15,11 +16,11 @@ var isWin = process.platform === 'win32';
 // Fix AppVeyor tests because Git bin folder is in PATH and it has a "echo" program there
 if (isWin) {
     process.env.PATH = process.env.PATH
-    .split(path.delimiter)
-    .filter(function (entry) {
-        return !/\\git\\bin$/i.test(path.normalize(entry));
-    })
-    .join(path.delimiter);
+        .split(path.delimiter)
+        .filter(function (entry) {
+            return !/\\git\\bin$/i.test(path.normalize(entry));
+        })
+        .join(path.delimiter);
 }
 
 describe('cross-spawn', function () {
@@ -418,24 +419,24 @@ extension\');', { mode: parseInt('0777', 8) });
                     errors = [];
 
                     spawned
-                    .on('error', function (err) {
-                        errors.push(err);
-                    })
-                    .on('exit', function () {
-                        spawned.removeAllListeners();
-                        next(new Error('Should not emit exit'));
-                    })
-                    .on('close', function (code, signal) {
-                        expect(code).to.not.be(0);
-                        expect(signal).to.be(null);
+                        .on('error', function (err) {
+                            errors.push(err);
+                        })
+                        .on('exit', function () {
+                            spawned.removeAllListeners();
+                            next(new Error('Should not emit exit'));
+                        })
+                        .on('close', function (code, signal) {
+                            expect(code).to.not.be(0);
+                            expect(signal).to.be(null);
 
-                        setTimeout(function () {
-                            expect(errors).to.have.length(1);
-                            assertError(errors[0]);
+                            setTimeout(function () {
+                                expect(errors).to.have.length(1);
+                                assertError(errors[0]);
 
-                            next();
-                        }, 1000);
-                    });
+                                next();
+                            }, 1000);
+                        });
                 } else {
                     assertError(spawned.error);
                     next();
@@ -451,21 +452,21 @@ extension\');', { mode: parseInt('0777', 8) });
 
                 if (method === 'spawn') {
                     spawned
-                    .on('error', function () {
-                        spawned.removeAllListeners();
-                        clearTimeout(timeout);
-                        next(new Error('Should not emit error'));
-                    })
-                    .on('exit', function () {
-                        exited = true;
-                    })
-                    .on('close', function (code, signal) {
-                        expect(code).to.not.be(0);
-                        expect(signal).to.be(null);
-                        expect(exited).to.be(true);
+                        .on('error', function () {
+                            spawned.removeAllListeners();
+                            clearTimeout(timeout);
+                            next(new Error('Should not emit error'));
+                        })
+                        .on('exit', function () {
+                            exited = true;
+                        })
+                        .on('close', function (code, signal) {
+                            expect(code).to.not.be(0);
+                            expect(signal).to.be(null);
+                            expect(exited).to.be(true);
 
-                        timeout = setTimeout(next, 1000);
-                    });
+                            timeout = setTimeout(next, 1000);
+                        });
                 } else {
                     expect(spawned.error).to.not.be.ok();
                     next();
@@ -481,23 +482,101 @@ extension\');', { mode: parseInt('0777', 8) });
 
                 if (method === 'spawn') {
                     spawned
+                        .on('error', function () {
+                            spawned.removeAllListeners();
+                            clearTimeout(timeout);
+                            next(new Error('Should not emit error'));
+                        })
+                        .on('exit', function () {
+                            exited = true;
+                        })
+                        .on('close', function (code, signal) {
+                            expect(code).to.not.be(0);
+                            expect(signal).to.be(null);
+                            expect(exited).to.be(true);
+
+                            timeout = setTimeout(next, 1000);
+                        });
+                } else {
+                    expect(spawned.error).to.not.be.ok();
+                    next();
+                }
+            });
+
+            it('should succesfully kill process', function (next) {
+                var spawned;
+                var exited;
+                var pid;
+
+                this.timeout(10000);
+
+                if (method === 'spawn') {
+                    spawned = spawn[method]('node', [__dirname + '/fixtures/infinite-wait.js']);
+
+                    pid = spawned.pid;
+                    spawned
                     .on('error', function () {
-                        spawned.removeAllListeners();
-                        clearTimeout(timeout);
-                        next(new Error('Should not emit error'));
+                        // spawned.removeAllListeners();
+                        expect().fail('There should not be any errors');
+                        next();
                     })
                     .on('exit', function () {
                         exited = true;
                     })
-                    .on('close', function (code, signal) {
-                        expect(code).to.not.be(0);
-                        expect(signal).to.be(null);
+                    .on('close', function () {
                         expect(exited).to.be(true);
 
-                        timeout = setTimeout(next, 1000);
+                        ps.lookup({ pid: pid }, function (err, resultList) {
+                            if (err) {
+                                expect().fail('There should not be any errors');
+                            }
+                            expect(resultList.length).to.be(0);
+                            next();
+                        });
                     });
+
+                    setTimeout(function () { spawned.kill(); }, 1000);
                 } else {
-                    expect(spawned.error).to.not.be.ok();
+                    // Skip test, because sync child process can't be killed from parent
+                    next();
+                }
+            });
+
+            it('should succesfully kill process that has child procces', function (next) {
+                var spawned;
+                var exited;
+                var pid;
+
+                this.timeout(10000);
+
+                if (method === 'spawn') {
+                    spawned = spawn[method]('node', [__dirname + '/fixtures/withChildProcess.js']);
+
+                    pid = spawned.pid;
+                    spawned
+                    .on('error', function () {
+                        // spawned.removeAllListeners();
+                        expect().fail('There should not be any errors');
+                        next();
+                    })
+                    .on('exit', function () {
+                        exited = true;
+                    })
+                    .on('close', function () {
+                        expect(exited).to.be(true);
+
+                        ps.lookup({ pid: pid }, function (err, resultList) {
+                            if (err) {
+                                expect().fail('There should not be any errors');
+                            }
+                            expect(resultList.length).to.be(0);
+                            next();
+                        });
+                    });
+
+                    setTimeout(function () { spawned.kill(); }, 1000);
+                } else {
+                    // Skip test, because sync child process can't be killed from parent
                     next();
                 }
             });
