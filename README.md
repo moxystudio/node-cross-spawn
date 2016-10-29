@@ -58,8 +58,11 @@ var results = spawn.sync('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit
 On Windows, cross-spawn will only spawn `cmd.exe` if necessary. If the extension
 of the executable is `.exe` or `.com`, it will spawn it directly. If you wish
 to override this behavior and *always* spawn a shell, pass the `{shell: true}`
-option.
+option, this option should be used carefully as no escaping will be performed and
+the spawn implementation provided by node will be used.
 
+While `{shell: false}` is supported, cross-spawn will throw an error when this option
+is used together with an executable without the `.exe` or `.com` extension.
 
 ## Tests
 
