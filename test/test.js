@@ -8,7 +8,6 @@ var mkdirp = require('mkdirp');
 var hasEmptyArgumentBug = require('../lib/util/hasEmptyArgumentBug');
 var spawn = require('../');
 var buffered = require('./util/buffered');
-var nodeVersion = require('./util/nodeVersion');
 
 var isWin = process.platform === 'win32';
 
@@ -467,28 +466,44 @@ extension\');', { mode: parseInt('0777', 8) });
             });
 
             if (isWin) {
-                if (nodeVersion >= 6) {
-                    it('should use nodejs\' spawn when option.shell is specified', function (next) {
-                        buffered(method, 'echo', ['%RANDOM%'], { shell: true }, function (err, data, code) {
-                            expect(err).to.not.be.ok();
-                            expect(code).to.be(0);
-                            expect(data.trim()).to.match(/\d+/);
+                it('should use nodejs\' spawn when option.shell is specified', function (next) {
+                    buffered(method, 'echo', ['%RANDOM%'], { shell: true }, function (err, data, code) {
+                        expect(err).to.not.be.ok();
+                        expect(code).to.be(0);
+                        expect(data.trim()).to.match(/\d+/);
 
-                            buffered(method, 'echo', ['%RANDOM%'], { shell: false }, function (err, data) {
-                                // In some windows versions, the echo exists outside the shell as echo.exe so we must account for that here
-                                if (err) {
-                                    expect(err).to.be.an(Error);
-                                    expect(err.message).to.contain('ENOENT');
-                                } else {
-                                    expect(data.trim()).to.equal('%RANDOM%');
-                                }
+                        buffered(method, 'echo', ['%RANDOM%'], { shell: false }, function (err, data) {
+                            // In some windows versions, the echo exists outside the shell as echo.exe so we must account for that here
+                            if (err) {
+                                expect(err).to.be.an(Error);
+                                expect(err.message).to.contain('ENOENT');
+                            } else {
+                                expect(data.trim()).to.equal('%RANDOM%');
+                            }
 
-                                next();
-                            });
+                            next();
                         });
                     });
-                }
+                });
+            } else {
+                it.only('should use nodejs\' spawn when option.shell is specified', function (next) {
+                    buffered(method, 'echo', ['hello &&', 'echo there'], { shell: true }, function (err, data, code) {
+                        expect(err).to.not.be.ok();
+                        expect(code).to.be(0);
+                        expect(data.trim()).to.equal('hello\nthere');
 
+                        buffered(method, 'echo', ['hello &&', 'echo there'], { shell: false }, function (err, data) {
+                            expect(err).to.not.be.ok();
+                            expect(code).to.be(0);
+                            expect(data.trim()).to.equal('hello && echo there');
+
+                            next();
+                        });
+                    });
+                });
+            }
+
+            if (isWin) {
                 if (hasEmptyArgumentBug) {
                     it('should spawn a shell for a .exe on old Node', function (next) {
                         buffered(method, __dirname + '/fixtures/win-ppid.js', function (err, data, code) {
