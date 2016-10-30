@@ -32,9 +32,8 @@ Node has issues when using spawn on Windows:
 
 - It ignores [PATHEXT](https://github.com/joyent/node/issues/2318)
 - It does not support [shebangs](http://pt.wikipedia.org/wiki/Shebang)
-- It does not allow you to run `del` or `dir`
-- It does not properly escape arguments with spaces or special characters
 - No `options.shell` support on node < 6
+- It does not allow you to run `del` or `dir`
 
 All these issues are handled correctly by `cross-spawn`.
 There are some known modules, such as [win-spawn](https://github.com/ForbesLindesay/win-spawn), that try to solve this but they are either broken or provide faulty escaping of shell arguments.
@@ -62,8 +61,9 @@ var results = spawn.sync('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit
 
 Starting from node v6, `spawn` has a `shell` option that allows you run commands from within a shell. This new option solves most of the problems that `cross-spawn` attempts to solve, but:
 
-- It has no support for shebangs on Windows.
-- You must manually escape the command and arguments which is very error prone, specially when passing user input.
+- It has no support for shebangs on Windows
+- You must manually escape the command and arguments which is very error prone, specially when passing user input
+- No support for node < 6
 
 If you are using the `shell` option to spawn a command in a cross platform way, consider using `cross-spawn` instead. You have been warned.
 
@@ -72,7 +72,7 @@ If you are using the `shell` option to spawn a command in a cross platform way, 
 
 While `cross-spawn` handles shebangs on Windows, its support is limited: e.g.: it doesn't handle arguments after the path, e.g.: `#!/bin/bash -e`.
 
-Always test your code on Windows!
+Remember to always test your code on Windows!
 
 
 ## Tests
