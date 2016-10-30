@@ -502,6 +502,7 @@ extension\');', { mode: parseInt('0777', 8) });
                             expect(data.trim()).to.match(/\d+/);
 
                             buffered(method, 'echo', ['%RANDOM%'], { shell: false }, function (err, data) {
+                                // In some windows versions, the echo exists outside the shell as echo.exe so we must account for that here
                                 if (err) {
                                     expect(err).to.be.an(Error);
                                     expect(err.message).to.contain('ENOENT');
