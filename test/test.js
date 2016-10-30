@@ -499,11 +499,9 @@ extension\');', { mode: parseInt('0777', 8) });
                         expect(code).to.be(0);
                         expect(data.trim()).to.match(/\d+/);
 
-                        buffered(method, 'echo', ['%RANDOM%'], { shell: false }, function (err, data, code) {
-                            expect(err).to.not.be.ok();
-                            expect(code).to.be(0);
-                            expect(data.trim()).to.equal('%RANDOM%');
-
+                        buffered(method, 'echo', ['%RANDOM%'], { shell: false }, function (err) {
+                            expect(err).to.be.an(Error);
+                            expect(err.message).to.contain('ENOENT');
                             next();
                         });
                     });
