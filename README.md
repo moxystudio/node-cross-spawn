@@ -61,9 +61,9 @@ var results = spawn.sync('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit
 
 Starting from node v6, `spawn` has a `shell` option that allows you run commands from within a shell. This new option solves most of the problems that `cross-spawn` attempts to solve, but:
 
+- It's not supported in node < 6
 - It has no support for shebangs on Windows
 - You must manually escape the command and arguments which is very error prone, specially when passing user input
-- No support for node < 6
 
 If you are using the `shell` option to spawn a command in a cross platform way, consider using `cross-spawn` instead. You have been warned.
 
