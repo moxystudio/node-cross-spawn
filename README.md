@@ -34,6 +34,7 @@ Node has issues when using spawn on Windows:
 - It does not support [shebangs](http://pt.wikipedia.org/wiki/Shebang)
 - It does not allow you to run `del` or `dir`
 - It does not properly escape arguments with spaces or special characters
+- No `options.shell` support on node < 6
 
 All these issues are handled correctly by `cross-spawn`.
 There are some known modules, such as [win-spawn](https://github.com/ForbesLindesay/win-spawn), that try to solve this but they are either broken or provide faulty escaping of shell arguments.
@@ -57,12 +58,12 @@ var results = spawn.sync('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit
 
 ## Caveat
 
-Starting from nodejs v6, `spawn` has a `shell` option that allows you run commands from within a shell. If you use this option, `cross-spawn` will just call `spawn` directly. This new option solves most of the problems that `cross-spawn` attempts to solve, but:
+Starting from node v6, `spawn` has a `shell` option that allows you run commands from within a shell. This new option solves most of the problems that `cross-spawn` attempts to solve, but:
 
-- There's no support for shebangs on Windows.
+- It has no support for shebangs on Windows.
 - You must manually escape the command and arguments which is very error prone, specially when passing user input.
 
-You have been warned.
+If you are using the `shell` option to spawn a command in a cross platform way, consider using `cross-spawn` instead. You have been warned.
 
 
 ## Tests
