@@ -57,7 +57,7 @@ var results = spawn.sync('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit
 
 ## Caveats
 
-#### `option.shell` as an alternative to `cross-spawn`
+#### `options.shell` as an alternative to `cross-spawn`
 
 Starting from node v6, `spawn` has a `shell` option that allows you run commands from within a shell. This new option solves most of the problems that `cross-spawn` attempts to solve, but:
 
