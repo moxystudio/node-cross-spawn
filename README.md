@@ -57,7 +57,7 @@ var results = spawn.sync('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit
 
 ## Caveats
 
-### `option.shell` as an alternative to `cross-spawn`
+#### `option.shell` as an alternative to `cross-spawn`
 
 Starting from node v6, `spawn` has a `shell` option that allows you run commands from within a shell. This new option solves most of the problems that `cross-spawn` attempts to solve, but:
 
@@ -68,7 +68,7 @@ Starting from node v6, `spawn` has a `shell` option that allows you run commands
 If you are using the `shell` option to spawn a command in a cross platform way, consider using `cross-spawn` instead. You have been warned.
 
 
-### Shebangs
+#### Shebangs
 
 While `cross-spawn` handles shebangs on Windows, its support is limited: e.g.: it doesn't handle arguments after the path, e.g.: `#!/bin/bash -e`.
 
