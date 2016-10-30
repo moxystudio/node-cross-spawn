@@ -6,7 +6,7 @@ var expect = require('expect.js');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
 var which = require('which');
-var hasBrokenSpawn = require('../lib/hasBrokenSpawn');
+var hasEmptyArgumentBug = require('../lib/util/hasEmptyArgumentBug');
 var spawn = require('../');
 var buffered = require('./util/buffered');
 var nodeVersion = require('./util/nodeVersion');
@@ -516,7 +516,7 @@ extension\');', { mode: parseInt('0777', 8) });
                     });
                 }
 
-                if (hasBrokenSpawn) {
+                if (hasEmptyArgumentBug) {
                     it('should spawn a shell for a .exe on old Node', function (next) {
                         buffered(method, __dirname + '/fixtures/win-ppid.js', function (err, data, code) {
                             expect(err).to.not.be.ok();
