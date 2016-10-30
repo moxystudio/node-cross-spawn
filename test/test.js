@@ -5,7 +5,6 @@ var path = require('path');
 var expect = require('expect.js');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
-var which = require('which');
 var hasEmptyArgumentBug = require('../lib/util/hasEmptyArgumentBug');
 var spawn = require('../');
 var buffered = require('./util/buffered');
@@ -48,32 +47,6 @@ describe('cross-spawn', function () {
                     process.env.PATH = path.normalize(__dirname + '/fixtures/') + path.delimiter + process.env.PATH;
 
                     buffered(method, 'shebang', function (err, data, code) {
-                        expect(err).to.not.be.ok();
-                        expect(code).to.be(0);
-                        expect(data).to.equal('shebang works!');
-
-                        next();
-                    });
-                });
-            });
-
-            it('should support shebang in executables without /usr/bin/env', function (next) {
-                var nodejs = which.sync('node');
-                var file = __dirname + '/fixtures/shebang_noenv';
-
-                fs.writeFileSync(file, '#!' + nodejs + '\n\nprocess.stdout.write(\'shebang works!\');', {
-                    mode: parseInt('0777', 8),
-                });
-
-                buffered(method, file, function (err, data, code) {
-                    expect(err).to.not.be.ok();
-                    expect(code).to.be(0);
-                    expect(data).to.equal('shebang works!');
-
-                    // Test if the actual shebang file is resolved against the PATH
-                    process.env.PATH = path.normalize(__dirname + '/fixtures/') + path.delimiter + process.env.PATH;
-
-                    buffered(method, 'shebang_noenv', function (err, data, code) {
                         expect(err).to.not.be.ok();
                         expect(code).to.be(0);
                         expect(data).to.equal('shebang works!');
