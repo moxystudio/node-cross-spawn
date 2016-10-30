@@ -6,9 +6,10 @@ var expect = require('expect.js');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
 var which = require('which');
-var buffered = require('./util/buffered');
 var hasBrokenSpawn = require('../lib/hasBrokenSpawn');
 var spawn = require('../');
+var buffered = require('./util/buffered');
+var nodeVersion = require('./util/nodeVersion');
 
 var isWin = process.platform === 'win32';
 
@@ -493,19 +494,21 @@ extension\');', { mode: parseInt('0777', 8) });
             });
 
             if (isWin) {
-                it('should use nodejs\' spawn when option.shell is specified', function (next) {
-                    buffered(method, 'echo', ['%RANDOM%'], { shell: true }, function (err, data, code) {
-                        expect(err).to.not.be.ok();
-                        expect(code).to.be(0);
-                        expect(data.trim()).to.match(/\d+/);
+                if (nodeVersion >= 6) {
+                    it('should use nodejs\' spawn when option.shell is specified', function (next) {
+                        buffered(method, 'echo', ['%RANDOM%'], { shell: true }, function (err, data, code) {
+                            expect(err).to.not.be.ok();
+                            expect(code).to.be(0);
+                            expect(data.trim()).to.match(/\d+/);
 
-                        buffered(method, 'echo', ['%RANDOM%'], { shell: false }, function (err) {
-                            expect(err).to.be.an(Error);
-                            expect(err.message).to.contain('ENOENT');
-                            next();
+                            buffered(method, 'echo', ['%RANDOM%'], { shell: false }, function (err) {
+                                expect(err).to.be.an(Error);
+                                expect(err.message).to.contain('ENOENT');
+                                next();
+                            });
                         });
                     });
-                });
+                }
 
                 if (hasBrokenSpawn) {
                     it('should spawn a shell for a .exe on old Node', function (next) {
