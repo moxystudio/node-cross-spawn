@@ -12,16 +12,6 @@ var spawn = require('../');
 
 var isWin = process.platform === 'win32';
 
-// Fix AppVeyor tests because Git bin folder is in PATH and it has a "echo" program there
-if (isWin) {
-    process.env.PATH = process.env.PATH
-    .split(path.delimiter)
-    .filter(function (entry) {
-        return !/\\git\\bin$/i.test(path.normalize(entry));
-    })
-    .join(path.delimiter);
-}
-
 describe('cross-spawn', function () {
     var methods = ['spawn', 'sync'];
 
@@ -503,6 +493,22 @@ extension\');', { mode: parseInt('0777', 8) });
             });
 
             if (isWin) {
+                it('should use nodejs\' spawn when option.shell is specified', function (next) {
+                    buffered(method, 'echo', ['%RANDOM%'], { shell: true }, function (err, data, code) {
+                        expect(err).to.not.be.ok();
+                        expect(code).to.be(0);
+                        expect(data.trim()).to.match(/\d+/);
+
+                        buffered(method, 'echo', ['%RANDOM%'], { shell: false }, function (err, data, code) {
+                            expect(err).to.not.be.ok();
+                            expect(code).to.be(0);
+                            expect(data.trim()).to.equal('%RANDOM%');
+
+                            next();
+                        });
+                    });
+                });
+
                 if (hasBrokenSpawn) {
                     it('should spawn a shell for a .exe on old Node', function (next) {
                         buffered(method, __dirname + '/fixtures/win-ppid.js', function (err, data, code) {

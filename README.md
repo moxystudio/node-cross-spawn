@@ -43,7 +43,8 @@ There are some known modules, such as [win-spawn](https://github.com/ForbesLinde
 
 Exactly the same way as node's [`spawn`](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options) or [`spawnSync`](https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options), so it's a drop in replacement.
 
-```javascript
+
+```js
 var spawn = require('cross-spawn');
 
 // Spawn NPM asynchronously
@@ -52,6 +53,7 @@ var child = spawn('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit' });
 // Spawn NPM synchronously
 var results = spawn.sync('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit' });
 ```
+
 
 ## Caveat
 
