@@ -501,9 +501,14 @@ extension\');', { mode: parseInt('0777', 8) });
                             expect(code).to.be(0);
                             expect(data.trim()).to.match(/\d+/);
 
-                            buffered(method, 'echo', ['%RANDOM%'], { shell: false }, function (err) {
-                                expect(err).to.be.an(Error);
-                                expect(err.message).to.contain('ENOENT');
+                            buffered(method, 'echo', ['%RANDOM%'], { shell: false }, function (err, data) {
+                                if (err) {
+                                    expect(err).to.be.an(Error);
+                                    expect(err.message).to.contain('ENOENT');
+                                } else {
+                                    expect(data.trim()).to.equal('%RANDOM%');
+                                }
+
                                 next();
                             });
                         });
