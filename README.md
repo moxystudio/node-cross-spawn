@@ -43,7 +43,8 @@ There are some known modules, such as [win-spawn](https://github.com/ForbesLinde
 
 Exactly the same way as node's [`spawn`](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options) or [`spawnSync`](https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options), so it's a drop in replacement.
 
-```javascript
+
+```js
 var spawn = require('cross-spawn');
 
 // Spawn NPM asynchronously
@@ -53,12 +54,15 @@ var child = spawn('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit' });
 var results = spawn.sync('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit' });
 ```
 
+
 ## Caveat
 
-On Windows, cross-spawn will only spawn `cmd.exe` if necessary. If the extension
-of the executable is `.exe` or `.com`, it will spawn it directly. If you wish
-to override this behavior and *always* spawn a shell, pass the `{shell: true}`
-option.
+Starting from nodejs v6, `spawn` has a `shell` option that allows you run commands from within a shell. If you use this option, `cross-spawn` will just call `spawn` directly. This new option solves most of the problems that `cross-spawn` attempts to solve, but:
+
+- There's no support for shebangs on Windows.
+- You must manually escape the command and arguments which is very error prone, specially when passing user input.
+
+You have been warned.
 
 
 ## Tests
