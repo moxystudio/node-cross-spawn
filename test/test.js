@@ -5,7 +5,6 @@ var path = require('path');
 var expect = require('expect.js');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
-var ps = require('ps-node');
 var hasEmptyArgumentBug = require('../lib/util/hasEmptyArgumentBug');
 var spawn = require('../');
 var buffered = require('./util/buffered');
@@ -470,14 +469,12 @@ extension\');', { mode: parseInt('0777', 8) });
             it('should succesfully kill simple process', function (next) {
                 var spawned;
                 var exited;
-                var pid;
 
-                this.timeout(10000);
+                this.timeout(5000);
 
                 if (method === 'spawn') {
                     spawned = spawn[method]('node', [__dirname + '/fixtures/infinite-wait.js']);
 
-                    pid = spawned.pid;
                     spawned
                     .on('error', function () {
                         // spawned.removeAllListeners();
@@ -490,13 +487,7 @@ extension\');', { mode: parseInt('0777', 8) });
                     .on('close', function () {
                         expect(exited).to.be(true);
 
-                        ps.lookup({ pid: pid }, function (err, resultList) {
-                            if (err) {
-                                expect().fail('There should not be any errors');
-                            }
-                            expect(resultList.length).to.be(0);
-                            next();
-                        });
+                        next();
                     });
 
                     setTimeout(function () { spawned.kill(); }, 1000);
@@ -509,14 +500,12 @@ extension\');', { mode: parseInt('0777', 8) });
             it('should succesfully kill process that has child procces', function (next) {
                 var spawned;
                 var exited;
-                var pid;
 
-                this.timeout(10000);
+                this.timeout(5000);
 
                 if (method === 'spawn') {
                     spawned = spawn[method]('node', [__dirname + '/fixtures/withChildProcess.js']);
 
-                    pid = spawned.pid;
                     spawned
                     .on('error', function () {
                         // spawned.removeAllListeners();
@@ -529,13 +518,7 @@ extension\');', { mode: parseInt('0777', 8) });
                     .on('close', function () {
                         expect(exited).to.be(true);
 
-                        ps.lookup({ pid: pid }, function (err, resultList) {
-                            if (err) {
-                                expect().fail('There should not be any errors');
-                            }
-                            expect(resultList.length).to.be(0);
-                            next();
-                        });
+                        next();
                     });
 
                     setTimeout(function () { spawned.kill(); }, 1000);
@@ -548,14 +531,12 @@ extension\');', { mode: parseInt('0777', 8) });
             it('should succesfully kill complicated process', function (next) {
                 var spawned;
                 var exited;
-                var pid;
 
-                this.timeout(10000);
+                this.timeout(5000);
 
                 if (method === 'spawn') {
                     spawned = runJestInWatchMode(spawn[method], __dirname + '/fixtures/complicatedCase');
 
-                    pid = spawned.pid;
                     spawned
                     .on('error', function () {
                         // spawned.removeAllListeners();
@@ -568,13 +549,7 @@ extension\');', { mode: parseInt('0777', 8) });
                     .on('close', function () {
                         expect(exited).to.be(true);
 
-                        ps.lookup({ pid: pid }, function (err, resultList) {
-                            if (err) {
-                                expect().fail('There should not be any errors');
-                            }
-                            expect(resultList.length).to.be(0);
-                            next();
-                        });
+                        next();
                     });
 
                     setTimeout(function () { spawned.kill(); }, 1000);
