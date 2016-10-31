@@ -5,23 +5,12 @@ var path = require('path');
 var expect = require('expect.js');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
-var which = require('which');
 var ps = require('ps-node');
-var buffered = require('./util/buffered');
-var hasBrokenSpawn = require('../lib/hasBrokenSpawn');
+var hasEmptyArgumentBug = require('../lib/util/hasEmptyArgumentBug');
 var spawn = require('../');
+var buffered = require('./util/buffered');
 
 var isWin = process.platform === 'win32';
-
-// Fix AppVeyor tests because Git bin folder is in PATH and it has a "echo" program there
-if (isWin) {
-    process.env.PATH = process.env.PATH
-        .split(path.delimiter)
-        .filter(function (entry) {
-            return !/\\git\\bin$/i.test(path.normalize(entry));
-        })
-        .join(path.delimiter);
-}
 
 describe('cross-spawn', function () {
     var methods = ['spawn', 'sync'];
@@ -58,32 +47,6 @@ describe('cross-spawn', function () {
                     process.env.PATH = path.normalize(__dirname + '/fixtures/') + path.delimiter + process.env.PATH;
 
                     buffered(method, 'shebang', function (err, data, code) {
-                        expect(err).to.not.be.ok();
-                        expect(code).to.be(0);
-                        expect(data).to.equal('shebang works!');
-
-                        next();
-                    });
-                });
-            });
-
-            it('should support shebang in executables without /usr/bin/env', function (next) {
-                var nodejs = which.sync('node');
-                var file = __dirname + '/fixtures/shebang_noenv';
-
-                fs.writeFileSync(file, '#!' + nodejs + '\n\nprocess.stdout.write(\'shebang works!\');', {
-                    mode: parseInt('0777', 8),
-                });
-
-                buffered(method, file, function (err, data, code) {
-                    expect(err).to.not.be.ok();
-                    expect(code).to.be(0);
-                    expect(data).to.equal('shebang works!');
-
-                    // Test if the actual shebang file is resolved against the PATH
-                    process.env.PATH = path.normalize(__dirname + '/fixtures/') + path.delimiter + process.env.PATH;
-
-                    buffered(method, 'shebang_noenv', function (err, data, code) {
                         expect(err).to.not.be.ok();
                         expect(code).to.be(0);
                         expect(data).to.equal('shebang works!');
@@ -582,7 +545,45 @@ extension\');', { mode: parseInt('0777', 8) });
             });
 
             if (isWin) {
-                if (hasBrokenSpawn) {
+                it('should use nodejs\' spawn when option.shell is specified', function (next) {
+                    buffered(method, 'echo', ['%RANDOM%'], { shell: true }, function (err, data, code) {
+                        expect(err).to.not.be.ok();
+                        expect(code).to.be(0);
+                        expect(data.trim()).to.match(/\d+/);
+
+                        buffered(method, 'echo', ['%RANDOM%'], { shell: false }, function (err, data) {
+                            // In some windows versions, the echo exists outside the shell as echo.exe so we must account for that here
+                            if (err) {
+                                expect(err).to.be.an(Error);
+                                expect(err.message).to.contain('ENOENT');
+                            } else {
+                                expect(data.trim()).to.equal('%RANDOM%');
+                            }
+
+                            next();
+                        });
+                    });
+                });
+            } else {
+                it.only('should use nodejs\' spawn when option.shell is specified', function (next) {
+                    buffered(method, 'echo', ['hello &&', 'echo there'], { shell: true }, function (err, data, code) {
+                        expect(err).to.not.be.ok();
+                        expect(code).to.be(0);
+                        expect(data.trim()).to.equal('hello\nthere');
+
+                        buffered(method, 'echo', ['hello &&', 'echo there'], { shell: false }, function (err, data) {
+                            expect(err).to.not.be.ok();
+                            expect(code).to.be(0);
+                            expect(data.trim()).to.equal('hello && echo there');
+
+                            next();
+                        });
+                    });
+                });
+            }
+
+            if (isWin) {
+                if (hasEmptyArgumentBug) {
                     it('should spawn a shell for a .exe on old Node', function (next) {
                         buffered(method, __dirname + '/fixtures/win-ppid.js', function (err, data, code) {
                             expect(err).to.not.be.ok();

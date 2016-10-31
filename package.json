@@ -1,6 +1,6 @@
 {
   "name": "cross-spawn",
-  "version": "4.0.2",
+  "version": "5.0.0",
   "description": "Cross platform child_process#spawn and child_process#spawnSync",
   "main": "index.js",
   "scripts": {
@@ -37,6 +37,7 @@
   "license": "MIT",
   "dependencies": {
     "lru-cache": "^4.0.1",
+    "shebang-command": "^1.2.0",
     "which": "^1.2.9"
   },
   "devDependencies": {
@@ -46,6 +47,7 @@
     "glob": "^7.0.0",
     "mkdirp": "^0.5.1",
     "mocha": "^3.0.2",
+    "once": "^1.4.0",
     "rimraf": "^2.5.0",
     "ps-node": "^0.1.4"
   }

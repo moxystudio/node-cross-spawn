@@ -1,6 +1,7 @@
 'use strict';
 
 var spawn = require('../../index');
+var once = require('once');
 
 function buffered(method, command, args, options, callback) {
     var cp;
@@ -24,6 +25,7 @@ function buffered(method, command, args, options, callback) {
     } else {
         cp = spawn(command, args, options);
         stdout = stderr = null;
+        callback = once(callback);
 
         cp.stdout && cp.stdout.on('data', function (buffer) {
             stdout = stdout || '';
