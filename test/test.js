@@ -551,7 +551,7 @@ extension\');', { mode: parseInt('0777', 8) });
                 var exited;
                 var pid;
 
-                this.timeout(100000);
+                this.timeout(10000);
 
                 if (method === 'spawn') {
                     jestWatchMode = runJestInWatchmode(spawn[method], __dirname + '/fixtures/complicatedCase');

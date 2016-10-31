@@ -5,8 +5,6 @@
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "coverageReporters": ["json"],
     "moduleFileExtensions": [
-      "ts",
-      "tsx",
       "js"
     ]
   }

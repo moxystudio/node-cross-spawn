@@ -1,4 +1,6 @@
-export class Hello {
+'use strict';
+
+class Hello {
   constructor() {
     const greeting = `
       this
@@ -12,12 +14,6 @@ export class Hello {
 
     throw new Error('Hello error!');
   }
-
-  public unexcuted(action: () => void = () => {}): void {
-    if (action) {
-        action();
-    } else {
-        console.log('unexcuted');
-    }
-  }
 }
+
+module.exports = Hello;
