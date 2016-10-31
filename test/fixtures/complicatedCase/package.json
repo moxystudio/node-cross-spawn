@@ -1,11 +1,2 @@
 {
-  "jest": {
-    "scriptPreprocessor": "../../preprocessor.js",
-    "testResultsProcessor": "../../coverageprocessor.js",
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "coverageReporters": ["json"],
-    "moduleFileExtensions": [
-      "js"
-    ]
-  }
 }

@@ -5,11 +5,8 @@ var path = require('path');
 var JEST_PATH = 'jest';
 
 function fileExists(filePath) {
-    var F_OK = fs.constants && fs.constants.F_OK || fs.F_OK;
-
     try {
-        fs.accessSync(filePath, F_OK);
-        return true;
+        return fs.statSync(filePath).isFile();
     } catch (e) {
         return false;
     }
