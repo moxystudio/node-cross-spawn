@@ -19,11 +19,11 @@ function spawn(command, args, options) {
     // Hook into child process "exit" event to emit an error if the command
     // does not exists, see: https://github.com/IndigoUnited/node-cross-spawn/issues/16
     enoent.hookChildProcess(spawned, parsed);
-    if (enoent.isWin) {
-        spawned.kill = function () {
-            spawnSync('taskkill', ['/F', '/T', '/PID', this.pid]);
-        };
-    }
+    // if (enoent.isWin) {
+    //     spawned.kill = function () {
+    //         spawnSync('taskkill', ['/F', '/T', '/PID', this.pid]);
+    //     };
+    // }
 
     return spawned;
 }

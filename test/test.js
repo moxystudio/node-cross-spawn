@@ -9,6 +9,7 @@ var ps = require('ps-node');
 var hasEmptyArgumentBug = require('../lib/util/hasEmptyArgumentBug');
 var spawn = require('../');
 var buffered = require('./util/buffered');
+var runJestInWatchmode = require('./util/runJestInWatchMode');
 
 var isWin = process.platform === 'win32';
 
@@ -466,7 +467,7 @@ extension\');', { mode: parseInt('0777', 8) });
                 }
             });
 
-            it('should succesfully kill process', function (next) {
+            it('should succesfully kill simple process', function (next) {
                 var spawned;
                 var exited;
                 var pid;
@@ -514,6 +515,47 @@ extension\');', { mode: parseInt('0777', 8) });
 
                 if (method === 'spawn') {
                     spawned = spawn[method]('node', [__dirname + '/fixtures/withChildProcess.js']);
+
+                    pid = spawned.pid;
+                    spawned
+                    .on('error', function () {
+                        // spawned.removeAllListeners();
+                        expect().fail('There should not be any errors');
+                        next();
+                    })
+                    .on('exit', function () {
+                        exited = true;
+                    })
+                    .on('close', function () {
+                        expect(exited).to.be(true);
+
+                        ps.lookup({ pid: pid }, function (err, resultList) {
+                            if (err) {
+                                expect().fail('There should not be any errors');
+                            }
+                            expect(resultList.length).to.be(0);
+                            next();
+                        });
+                    });
+
+                    setTimeout(function () { spawned.kill(); }, 1000);
+                } else {
+                    // Skip test, because sync child process can't be killed from parent
+                    next();
+                }
+            });
+
+            it('should succesfully kill complicated process', function (next) {
+                var jestWatchMode;
+                var spawned;
+                var exited;
+                var pid;
+
+                this.timeout(100000);
+
+                if (method === 'spawn') {
+                    jestWatchMode = runJestInWatchmode(spawn[method], __dirname + '/fixtures/complicatedCase');
+                    spawned = jestWatchMode.childProcess;
 
                     pid = spawned.pid;
                     spawned
