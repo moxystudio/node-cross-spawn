@@ -383,24 +383,24 @@ extension\');', { mode: parseInt('0777', 8) });
                     errors = [];
 
                     spawned
-                        .on('error', function (err) {
-                            errors.push(err);
-                        })
-                        .on('exit', function () {
-                            spawned.removeAllListeners();
-                            next(new Error('Should not emit exit'));
-                        })
-                        .on('close', function (code, signal) {
-                            expect(code).to.not.be(0);
-                            expect(signal).to.be(null);
+                    .on('error', function (err) {
+                        errors.push(err);
+                    })
+                    .on('exit', function () {
+                        spawned.removeAllListeners();
+                        next(new Error('Should not emit exit'));
+                    })
+                    .on('close', function (code, signal) {
+                        expect(code).to.not.be(0);
+                        expect(signal).to.be(null);
 
-                            setTimeout(function () {
-                                expect(errors).to.have.length(1);
-                                assertError(errors[0]);
+                        setTimeout(function () {
+                            expect(errors).to.have.length(1);
+                            assertError(errors[0]);
 
-                                next();
-                            }, 1000);
-                        });
+                            next();
+                        }, 1000);
+                    });
                 } else {
                     assertError(spawned.error);
                     next();
@@ -416,21 +416,21 @@ extension\');', { mode: parseInt('0777', 8) });
 
                 if (method === 'spawn') {
                     spawned
-                        .on('error', function () {
-                            spawned.removeAllListeners();
-                            clearTimeout(timeout);
-                            next(new Error('Should not emit error'));
-                        })
-                        .on('exit', function () {
-                            exited = true;
-                        })
-                        .on('close', function (code, signal) {
-                            expect(code).to.not.be(0);
-                            expect(signal).to.be(null);
-                            expect(exited).to.be(true);
+                    .on('error', function () {
+                        spawned.removeAllListeners();
+                        clearTimeout(timeout);
+                        next(new Error('Should not emit error'));
+                    })
+                    .on('exit', function () {
+                        exited = true;
+                    })
+                    .on('close', function (code, signal) {
+                        expect(code).to.not.be(0);
+                        expect(signal).to.be(null);
+                        expect(exited).to.be(true);
 
-                            timeout = setTimeout(next, 1000);
-                        });
+                        timeout = setTimeout(next, 1000);
+                    });
                 } else {
                     expect(spawned.error).to.not.be.ok();
                     next();
@@ -446,21 +446,21 @@ extension\');', { mode: parseInt('0777', 8) });
 
                 if (method === 'spawn') {
                     spawned
-                        .on('error', function () {
-                            spawned.removeAllListeners();
-                            clearTimeout(timeout);
-                            next(new Error('Should not emit error'));
-                        })
-                        .on('exit', function () {
-                            exited = true;
-                        })
-                        .on('close', function (code, signal) {
-                            expect(code).to.not.be(0);
-                            expect(signal).to.be(null);
-                            expect(exited).to.be(true);
+                    .on('error', function () {
+                        spawned.removeAllListeners();
+                        clearTimeout(timeout);
+                        next(new Error('Should not emit error'));
+                    })
+                    .on('exit', function () {
+                        exited = true;
+                    })
+                    .on('close', function (code, signal) {
+                        expect(code).to.not.be(0);
+                        expect(signal).to.be(null);
+                        expect(exited).to.be(true);
 
-                            timeout = setTimeout(next, 1000);
-                        });
+                        timeout = setTimeout(next, 1000);
+                    });
                 } else {
                     expect(spawned.error).to.not.be.ok();
                     next();
