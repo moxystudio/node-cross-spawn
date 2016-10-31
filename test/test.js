@@ -9,7 +9,7 @@ var ps = require('ps-node');
 var hasEmptyArgumentBug = require('../lib/util/hasEmptyArgumentBug');
 var spawn = require('../');
 var buffered = require('./util/buffered');
-var runJestInWatchmode = require('./util/runJestInWatchMode');
+var runJestInWatchMode = require('./util/runJestInWatchMode');
 
 var isWin = process.platform === 'win32';
 
@@ -546,7 +546,6 @@ extension\');', { mode: parseInt('0777', 8) });
             });
 
             it('should succesfully kill complicated process', function (next) {
-                var jestWatchMode;
                 var spawned;
                 var exited;
                 var pid;
@@ -554,8 +553,7 @@ extension\');', { mode: parseInt('0777', 8) });
                 this.timeout(10000);
 
                 if (method === 'spawn') {
-                    jestWatchMode = runJestInWatchmode(spawn[method], __dirname + '/fixtures/complicatedCase');
-                    spawned = jestWatchMode.childProcess;
+                    spawned = runJestInWatchMode(spawn[method], __dirname + '/fixtures/complicatedCase');
 
                     pid = spawned.pid;
                     spawned
