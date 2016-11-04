@@ -486,7 +486,7 @@ extension\');', { mode: parseInt('0777', 8) });
                     });
                 });
             } else {
-                it.only('should use nodejs\' spawn when option.shell is specified', function (next) {
+                it('should use nodejs\' spawn when option.shell is specified', function (next) {
                     buffered(method, 'echo', ['hello &&', 'echo there'], { shell: true }, function (err, data, code) {
                         expect(err).to.not.be.ok();
                         expect(code).to.be(0);
