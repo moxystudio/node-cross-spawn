@@ -140,6 +140,16 @@ extension\');', { mode: parseInt('0777', 8) });
                 });
             });
 
+            it('should handle commands with names of environment variables', function (next) {
+                buffered(method, __dirname + '/fixtures/%CD%', function (err, data, code) {
+                    expect(err).to.not.be.ok();
+                    expect(code).to.be(0);
+                    expect(data.trim()).to.equal('special');
+
+                    next();
+                });
+            });
+
             it('should handle arguments with quotes', function (next) {
                 buffered(method, 'node', [
                     __dirname + '/fixtures/echo',
