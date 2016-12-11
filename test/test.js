@@ -150,6 +150,40 @@ extension\');', { mode: parseInt('0777', 8) });
                 });
             });
 
+            describe('should preserve environment variables', function () {
+                before(function () {
+                    process.env.FOO = 'foovalue';
+                });
+
+                it('when env dictionary is omitted', function (next) {
+                    buffered(method, __dirname + '/fixtures/echoEnv', function (err, data, code) {
+                        expect(err).to.not.be.ok();
+                        expect(code).to.be(0);
+                        expect(data.trim()).to.equal('foovalue');
+
+                        next();
+                    });
+                });
+
+                it('when env dictionary is passed', function (next) {
+                    buffered(method, __dirname + '/fixtures/echoEnv', {
+                        env: {
+                            BAR: 'barvalue',
+                        },
+                    }, function (err, data, code) {
+                        expect(err).to.not.be.ok();
+                        expect(code).to.be(0);
+                        expect(data.trim()).to.equal('barvalue');
+
+                        next();
+                    });
+                });
+
+                after(function () {
+                    delete process.env.FOO;
+                });
+            });
+
             it('should handle arguments with quotes', function (next) {
                 buffered(method, 'node', [
                     __dirname + '/fixtures/echo',
