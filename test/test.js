@@ -5,6 +5,7 @@ var path = require('path');
 var expect = require('expect.js');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
+var assign = require('lodash.assign');
 var hasEmptyArgumentBug = require('../lib/util/hasEmptyArgumentBug');
 var spawn = require('../');
 var buffered = require('./util/buffered');
@@ -568,6 +569,25 @@ extension\');', { mode: parseInt('0777', 8) });
                     });
                 }
             }
+
+            it('should not mutate passed `options` or `env` objects', function (next) {
+                var options = {
+                    env: {
+                        a: 'a',
+                        b: 'b',
+                    },
+                };
+                var env = options.env;
+                var optionsClone = assign({}, options);
+                var envClone = assign({}, env);
+
+                buffered(method, __dirname + '/fixtures/foo', options, function (err) {
+                    expect(err).to.not.be.ok();
+                    expect(options).to.eql(optionsClone);
+                    expect(env).to.eql(envClone);
+                    next();
+                });
+            });
         });
     });
 });
