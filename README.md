@@ -32,7 +32,7 @@ Node has issues when using spawn on Windows:
 
 - It ignores [PATHEXT](https://github.com/joyent/node/issues/2318)
 - It does not support [shebangs](http://pt.wikipedia.org/wiki/Shebang)
-- No `options.shell` support on node < v6
+- No `options.shell` support on node `<v4.8`
 - It does not allow you to run `del` or `dir`
 
 All these issues are handled correctly by `cross-spawn`.
@@ -59,9 +59,9 @@ var results = spawn.sync('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit
 
 #### `options.shell` as an alternative to `cross-spawn`
 
-Starting from node v6, `spawn` has a `shell` option that allows you run commands from within a shell. This new option solves most of the problems that `cross-spawn` attempts to solve, but:
+Starting from node `v4.8`, `spawn` has a `shell` option that allows you run commands from within a shell. This new option solves most of the problems that `cross-spawn` attempts to solve, but:
 
-- It's not supported in node < v6
+- It's not supported in node `<v4.8`
 - It has no support for shebangs on Windows
 - You must manually escape the command and arguments which is very error prone, specially when passing user input
 
