@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@satazor/eslint-config": "^3.0.0",
-    "eslint": "^3.0.0",
+    "eslint": "^3.15.0",
     "expect.js": "^0.3.0",
     "glob": "^7.0.0",
     "mkdirp": "^0.5.1",
