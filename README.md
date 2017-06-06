@@ -1,6 +1,6 @@
 # cross-spawn
 
-[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Build status][appveyor-image]][appveyor-url] [![Dependency status][david-dm-image]][david-dm-url] [![Dev Dependency status][david-dm-dev-image]][david-dm-dev-url]
+[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Build status][appveyor-image]][appveyor-url] [![Dependency status][david-dm-image]][david-dm-url] [![Dev Dependency status][david-dm-dev-image]][david-dm-dev-url] [![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
 
 [npm-url]:https://npmjs.org/package/cross-spawn
 [downloads-image]:http://img.shields.io/npm/dm/cross-spawn.svg
@@ -13,6 +13,8 @@
 [david-dm-image]:https://img.shields.io/david/IndigoUnited/node-cross-spawn.svg
 [david-dm-dev-url]:https://david-dm.org/IndigoUnited/node-cross-spawn?type=dev
 [david-dm-dev-image]:https://img.shields.io/david/dev/IndigoUnited/node-cross-spawn.svg
+[greenkeeper-image]:https://badges.greenkeeper.io/IndigoUnited/cross-spawn.svg
+[greenkeeper-url]:https://greenkeeper.io/
 
 A cross platform solution to node's spawn and spawnSync.
 
