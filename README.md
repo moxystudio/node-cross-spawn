@@ -1,5 +1,7 @@
 # cross-spawn
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/IndigoUnited/node-cross-spawn.svg)](https://greenkeeper.io/)
+
 [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Build status][appveyor-image]][appveyor-url] [![Dependency status][david-dm-image]][david-dm-url] [![Dev Dependency status][david-dm-dev-image]][david-dm-dev-url]
 
 [npm-url]:https://npmjs.org/package/cross-spawn
