@@ -13,7 +13,7 @@
 [david-dm-image]:https://img.shields.io/david/IndigoUnited/node-cross-spawn.svg
 [david-dm-dev-url]:https://david-dm.org/IndigoUnited/node-cross-spawn?type=dev
 [david-dm-dev-image]:https://img.shields.io/david/dev/IndigoUnited/node-cross-spawn.svg
-[greenkeeper-image]:https://badges.greenkeeper.io/IndigoUnited/cross-spawn.svg
+[greenkeeper-image]:https://badges.greenkeeper.io/IndigoUnited/node-cross-spawn.svg
 [greenkeeper-url]:https://greenkeeper.io/
 
 A cross platform solution to node's spawn and spawnSync.
