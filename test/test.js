@@ -5,6 +5,7 @@ var path = require('path');
 var expect = require('expect.js');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
+var assign = require('lodash.assign');
 var hasEmptyArgumentBug = require('../lib/util/hasEmptyArgumentBug');
 var spawn = require('../');
 var buffered = require('./util/buffered');
@@ -137,6 +138,50 @@ extension\');', { mode: parseInt('0777', 8) });
                     expect(data.trim()).to.equal('special');
 
                     next();
+                });
+            });
+
+            it('should handle commands with names of environment variables', function (next) {
+                buffered(method, __dirname + '/fixtures/%CD%', function (err, data, code) {
+                    expect(err).to.not.be.ok();
+                    expect(code).to.be(0);
+                    expect(data.trim()).to.equal('special');
+
+                    next();
+                });
+            });
+
+            describe('should preserve environment variables', function () {
+                before(function () {
+                    process.env.FOO = 'foovalue';
+                });
+
+                it('when env dictionary is omitted', function (next) {
+                    buffered(method, __dirname + '/fixtures/echoEnv', function (err, data, code) {
+                        expect(err).to.not.be.ok();
+                        expect(code).to.be(0);
+                        expect(data.trim()).to.equal('foovalue');
+
+                        next();
+                    });
+                });
+
+                it('when env dictionary is passed', function (next) {
+                    buffered(method, __dirname + '/fixtures/echoEnv', {
+                        env: {
+                            BAR: 'barvalue',
+                        },
+                    }, function (err, data, code) {
+                        expect(err).to.not.be.ok();
+                        expect(code).to.be(0);
+                        expect(data.trim()).to.equal('barvalue');
+
+                        next();
+                    });
+                });
+
+                after(function () {
+                    delete process.env.FOO;
                 });
             });
 
@@ -524,6 +569,25 @@ extension\');', { mode: parseInt('0777', 8) });
                     });
                 }
             }
+
+            it('should not mutate passed `options` or `env` objects', function (next) {
+                var options = {
+                    env: {
+                        a: 'a',
+                        b: 'b',
+                    },
+                };
+                var env = options.env;
+                var optionsClone = assign({}, options);
+                var envClone = assign({}, env);
+
+                buffered(method, __dirname + '/fixtures/foo', options, function (err) {
+                    expect(err).to.not.be.ok();
+                    expect(options).to.eql(optionsClone);
+                    expect(env).to.eql(envClone);
+                    next();
+                });
+            });
         });
     });
 });
