@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo bar
+echo special

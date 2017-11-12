@@ -1,25 +1,32 @@
-# appveyor file
 # http://www.appveyor.com/docs/appveyor-yml
 
-# build version format
-version: "{build}"
-
-# fix lineendings in Windows
+# Fix line endings in Windows
 init:
   - git config --global core.autocrlf input
 
-# what combinations to test
+# If we are running on Node <6, we must install npm v3 otherwise
+# there will be intermitent errors when running `npm install`
 environment:
   matrix:
-    - nodejs_version: 0.10
-    - nodejs_version: 0.12
-    - nodejs_version: 4
+    - nodejs_version: 4.7
+      npm_version: ^3.0.0
+    - nodejs_version: 4.8
+      npm_version: ^3.0.0
+    - nodejs_version: 5.6
+      npm_version: ^3.0.0
+    - nodejs_version: 5.7
+      npm_version: ^3.0.0
     - nodejs_version: 6
-    - nodejs_version: 7
+    - nodejs_version: 8
+    - nodejs_version: 9
 
-# get the latest stable version of Node 0.STABLE.latest
 install:
   - ps: Install-Product node $env:nodejs_version
+  - ps: |
+      if ($env:npm_version)
+      {
+        npm install -g npm@$env:npm_version
+      }
   - npm install
 
 build: off
@@ -28,3 +35,7 @@ test_script:
   - node --version
   - npm --version
   - cmd: npm test --no-color
+
+after_test:
+  - "npm i codecov"
+  - "node_modules/.bin/codecov"
