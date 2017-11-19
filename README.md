@@ -33,7 +33,7 @@ If you are using `spawnSync` on node 0.10 or older, you will also need to instal
 Node has issues when using spawn on Windows:
 
 - It ignores [PATHEXT](https://github.com/joyent/node/issues/2318)
-- It does not support [shebangs](http://pt.wikipedia.org/wiki/Shebang)
+- It does not support [shebangs](https://en.wikipedia.org/wiki/Shebang_(Unix))
 - No `options.shell` support on node `<v4.8`
 - It does not allow you to run `del` or `dir`
 
