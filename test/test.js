@@ -8,6 +8,7 @@ var mkdirp = require('mkdirp');
 var hasEmptyArgumentBug = require('../lib/util/hasEmptyArgumentBug');
 var spawn = require('../');
 var buffered = require('./util/buffered');
+var runJestInWatchMode = require('./util/runJestInWatchMode');
 
 var isWin = process.platform === 'win32';
 
@@ -461,6 +462,99 @@ extension\');', { mode: parseInt('0777', 8) });
                     });
                 } else {
                     expect(spawned.error).to.not.be.ok();
+                    next();
+                }
+            });
+
+            it('should succesfully kill simple process', function (next) {
+                var spawned;
+                var exited;
+
+                this.timeout(5000);
+
+                if (method === 'spawn') {
+                    spawned = spawn[method]('node', [__dirname + '/fixtures/infinite-wait.js']);
+
+                    spawned
+                    .on('error', function () {
+                        // spawned.removeAllListeners();
+                        expect().fail('There should not be any errors');
+                        next();
+                    })
+                    .on('exit', function () {
+                        exited = true;
+                    })
+                    .on('close', function () {
+                        expect(exited).to.be(true);
+
+                        next();
+                    });
+
+                    setTimeout(function () { spawned.kill(); }, 1000);
+                } else {
+                    // Skip test, because sync child process can't be killed from parent
+                    next();
+                }
+            });
+
+            it('should succesfully kill process that has child procces', function (next) {
+                var spawned;
+                var exited;
+
+                this.timeout(5000);
+
+                if (method === 'spawn') {
+                    spawned = spawn[method]('node', [__dirname + '/fixtures/withChildProcess.js']);
+
+                    spawned
+                    .on('error', function () {
+                        // spawned.removeAllListeners();
+                        expect().fail('There should not be any errors');
+                        next();
+                    })
+                    .on('exit', function () {
+                        exited = true;
+                    })
+                    .on('close', function () {
+                        expect(exited).to.be(true);
+
+                        next();
+                    });
+
+                    setTimeout(function () { spawned.kill(); }, 1000);
+                } else {
+                    // Skip test, because sync child process can't be killed from parent
+                    next();
+                }
+            });
+
+            it('should succesfully kill complicated process', function (next) {
+                var spawned;
+                var exited;
+
+                this.timeout(5000);
+
+                if (method === 'spawn') {
+                    spawned = runJestInWatchMode(spawn[method], __dirname + '/fixtures/complicatedCase');
+
+                    spawned
+                    .on('error', function () {
+                        // spawned.removeAllListeners();
+                        expect().fail('There should not be any errors');
+                        next();
+                    })
+                    .on('exit', function () {
+                        exited = true;
+                    })
+                    .on('close', function () {
+                        expect(exited).to.be(true);
+
+                        next();
+                    });
+
+                    setTimeout(function () { spawned.kill(); }, 1000);
+                } else {
+                    // Skip test, because sync child process can't be killed from parent
                     next();
                 }
             });
