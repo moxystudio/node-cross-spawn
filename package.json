@@ -42,11 +42,11 @@
   },
   "devDependencies": {
     "@satazor/eslint-config": "^3.0.0",
-    "eslint": "^3.0.0",
+    "eslint": "^4.16.0",
     "expect.js": "^0.3.0",
     "glob": "^7.0.0",
     "mkdirp": "^0.5.1",
-    "mocha": "^3.0.2",
+    "mocha": "^5.0.0",
     "once": "^1.4.0",
     "rimraf": "^2.5.0"
   }
