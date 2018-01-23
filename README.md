@@ -30,10 +30,10 @@ Node has issues when using spawn on Windows:
 
 - It ignores [PATHEXT](https://github.com/joyent/node/issues/2318)
 - It does not support [shebangs](https://en.wikipedia.org/wiki/Shebang_(Unix))
-- No `options.shell` support on node `<v4.8`
 - Has problems running commands with [spaces](https://github.com/nodejs/node/issues/7367)
-- Has problems running commands with posix relative paths (e.g.: `my-folder/my-executable`)
-- Circuvents an [issue](https://github.com/moxystudio/node-cross-spawn/issues/82) around command shims (files in node_modules/.bin/), where arguments with quotes and parenthesis would result in an [invalid syntax error](https://github.com/moxystudio/node-cross-spawn/blob/e77b8f22a416db46b6196767bcd35601d7e11d54/test/index.test.js#L149)
+- Has problems running commands with posix relative paths (e.g.: `./my-folder/my-executable`)
+- Circuvents an [issue](https://github.com/moxystudio/node-cross-spawn/issues/82) around command shims (files in `node_modules/.bin/`), where arguments with quotes and parenthesis would result in an [invalid syntax error](https://github.com/moxystudio/node-cross-spawn/blob/e77b8f22a416db46b6196767bcd35601d7e11d54/test/index.test.js#L149)
+- No `options.shell` support on node `<v4.8`
 
 All these issues are handled correctly by `cross-spawn`.
 There are some known modules, such as [win-spawn](https://github.com/ForbesLindesay/win-spawn), that try to solve this but they are either broken or provide faulty escaping of shell arguments.
@@ -59,11 +59,12 @@ var results = spawn.sync('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit
 
 ### Using `options.shell` as an alternative to `cross-spawn`
 
-Starting from node `v4.8`, `spawn` has a `shell` option that allows you run commands from within a shell. This new option solves most of the problems that `cross-spawn` attempts to solve, but:
+Starting from node `v4.8`, `spawn` has a `shell` option that allows you run commands from within a shell. This new option solves
+the [PATHEXT](https://github.com/joyent/node/issues/2318) issue but:
 
 - It's not supported in node `<v4.8`
 - You must manually escape the command and arguments which is very error prone, specially when passing user input
-- It just solves the [PATHEXT](https://github.com/joyent/node/issues/2318) issue from the [Why](#why) section
+- There are a lot of other unresolved issues from the [Why](#why) section that you must take into account
 
 If you are using the `shell` option to spawn a command in a cross platform way, consider using `cross-spawn` instead. You have been warned.
 
