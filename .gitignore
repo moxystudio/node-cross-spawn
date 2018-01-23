@@ -1,5 +1,5 @@
 node_modules/
 npm-debug.*
+coverage/
 test/fixtures/(*
-test/fixtures/shebang_noenv
-test/tmp
+test/tmp/

@@ -1,0 +1,3 @@
+{
+    "presets": [["moxy", { "targets": { "node": "4" }}]]
+}

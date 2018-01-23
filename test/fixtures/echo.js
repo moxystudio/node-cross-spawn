@@ -1,7 +1,7 @@
 'use strict';
 
-var args = process.argv.slice(2);
+const args = process.argv.slice(2);
 
-args.forEach(function (arg, index) {
+args.forEach((arg, index) => {
     process.stdout.write(arg + (index < args.length - 1 ? '\n' : ''));
 });
