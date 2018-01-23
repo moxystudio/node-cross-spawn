@@ -5,15 +5,15 @@
 [npm-url]:https://npmjs.org/package/cross-spawn
 [downloads-image]:http://img.shields.io/npm/dm/cross-spawn.svg
 [npm-image]:http://img.shields.io/npm/v/cross-spawn.svg
-[travis-url]:https://travis-ci.org/IndigoUnited/node-cross-spawn
-[travis-image]:http://img.shields.io/travis/IndigoUnited/node-cross-spawn/master.svg
+[travis-url]:https://travis-ci.org/moxystudio/node-cross-spawn
+[travis-image]:http://img.shields.io/travis/moxystudio/node-cross-spawn/master.svg
 [appveyor-url]:https://ci.appveyor.com/project/satazor/node-cross-spawn
 [appveyor-image]:https://img.shields.io/appveyor/ci/satazor/node-cross-spawn/master.svg
-[david-dm-url]:https://david-dm.org/IndigoUnited/node-cross-spawn
-[david-dm-image]:https://img.shields.io/david/IndigoUnited/node-cross-spawn.svg
-[david-dm-dev-url]:https://david-dm.org/IndigoUnited/node-cross-spawn?type=dev
-[david-dm-dev-image]:https://img.shields.io/david/dev/IndigoUnited/node-cross-spawn.svg
-[greenkeeper-image]:https://badges.greenkeeper.io/IndigoUnited/node-cross-spawn.svg
+[david-dm-url]:https://david-dm.org/moxystudio/node-cross-spawn
+[david-dm-image]:https://img.shields.io/david/moxystudio/node-cross-spawn.svg
+[david-dm-dev-url]:https://david-dm.org/moxystudio/node-cross-spawn?type=dev
+[david-dm-dev-image]:https://img.shields.io/david/dev/moxystudio/node-cross-spawn.svg
+[greenkeeper-image]:https://badges.greenkeeper.io/moxystudio/node-cross-spawn.svg
 [greenkeeper-url]:https://greenkeeper.io/
 
 A cross platform solution to node's spawn and spawnSync.
@@ -23,10 +23,6 @@ A cross platform solution to node's spawn and spawnSync.
 
 `$ npm install cross-spawn`
 
-If you are using `spawnSync` on node 0.10 or older, you will also need to install `spawn-sync`:
-
-`$ npm install spawn-sync`
-
 
 ## Why
 
@@ -35,7 +31,9 @@ Node has issues when using spawn on Windows:
 - It ignores [PATHEXT](https://github.com/joyent/node/issues/2318)
 - It does not support [shebangs](https://en.wikipedia.org/wiki/Shebang_(Unix))
 - No `options.shell` support on node `<v4.8`
-- It does not allow you to run `del` or `dir`
+- Has problems running commands with [spaces](https://github.com/nodejs/node/issues/7367)
+- Has problems running commands with posix relative paths (e.g.: `my-folder/my-executable`)
+- Circuvents an [issue](https://github.com/moxystudio/node-cross-spawn/issues/82) around command shims (files in node_modules/.bin/), where arguments with quotes and parenthesis would result in an [invalid syntax error](ADD_LINK_TO_TESTS)
 
 All these issues are handled correctly by `cross-spawn`.
 There are some known modules, such as [win-spawn](https://github.com/ForbesLindesay/win-spawn), that try to solve this but they are either broken or provide faulty escaping of shell arguments.
@@ -59,20 +57,26 @@ var results = spawn.sync('npm', ['list', '-g', '-depth', '0'], { stdio: 'inherit
 
 ## Caveats
 
-#### `options.shell` as an alternative to `cross-spawn`
+### Using `options.shell` as an alternative to `cross-spawn`
 
 Starting from node `v4.8`, `spawn` has a `shell` option that allows you run commands from within a shell. This new option solves most of the problems that `cross-spawn` attempts to solve, but:
 
 - It's not supported in node `<v4.8`
-- It has no support for shebangs on Windows
 - You must manually escape the command and arguments which is very error prone, specially when passing user input
+- It just solves the [PATHEXT](https://github.com/joyent/node/issues/2318) issue from the [Why](#why) section
 
 If you are using the `shell` option to spawn a command in a cross platform way, consider using `cross-spawn` instead. You have been warned.
 
+### `options.shell` support
 
-#### Shebangs
+While `cross-spawn` adds support for `options.shell` in node `<v4.8`, all of its enhancements are disabled.
 
-While `cross-spawn` handles shebangs on Windows, its support is limited: e.g.: it doesn't handle arguments after the path, e.g.: `#!/bin/bash -e`.
+This mimics the Node.js behavior. More specifically, the command and its arguments will not be automatically escaped nor shebang support will be offered. This is by design because if you are using `options.shell` you are probably targeting a specific platform anyway and you don't want things to get into your way.
+
+### Shebangs support
+
+While `cross-spawn` handles shebangs on Windows, its support is limited. More specifically, it just supports `#!/usr/bin/env <program>` where `<program>` must not contain any arguments.   
+If you would like to have the shebang support improved, feel free to contribute via a pull-request.
 
 Remember to always test your code on Windows!
 
