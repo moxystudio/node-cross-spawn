@@ -319,7 +319,7 @@ run.methods.forEach((method) => {
                 expect.assertions(1);
 
                 try {
-                    run(method, `${__dirname}/fixtures/shebang_enoent`);
+                    run(method, `${__dirname}/fixtures/shebang-enoent`);
                 } catch (err) {
                     expect(err.code).not.toBe('ENOENT');
                 }
@@ -327,7 +327,7 @@ run.methods.forEach((method) => {
         } else {
             it('should NOT emit `error` if shebang command does not exist', async () => {
                 await new Promise((resolve, reject) => {
-                    const promise = run(method, `${__dirname}/fixtures/shebang_enoent`);
+                    const promise = run(method, `${__dirname}/fixtures/shebang-enoent`);
                     const { cp } = promise;
 
                     promise.catch(() => {});
