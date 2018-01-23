@@ -22,8 +22,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Chores
 
-* Upgrade tooling
-* Upgrate project to es6 (node v4)
+* upgrade tooling
+* upgrate project to es6 (node v4)
 
 
 ### BREAKING CHANGES
