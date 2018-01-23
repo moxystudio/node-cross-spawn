@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.0"></a>
+# [6.0.0](https://github.com/moxystudio/node-cross-spawn/compare/5.1.0...6.0.0) (2018-01-23)
+
+
+### Bug Fixes
+
+* fix certain arguments not being correctly escaped or causing batch syntax error ([900cf10](https://github.com/moxystudio/node-cross-spawn/commit/900cf10)), closes [#82](https://github.com/moxystudio/node-cross-spawn/issues/82) [#51](https://github.com/moxystudio/node-cross-spawn/issues/51) [#82](https://github.com/moxystudio/node-cross-spawn/issues/82) [#51](https://github.com/moxystudio/node-cross-spawn/issues/51)
+
+
+### BREAKING CHANGES
+
+* remove support for older nodejs versions, only node >= 4 is supported
+
+
+
 <a name="5.1.0"></a>
 ## [5.1.0](https://github.com/moxystudio/node-cross-spawn/compare/5.0.1...5.1.0) (2017-02-26)
 
