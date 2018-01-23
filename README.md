@@ -84,8 +84,8 @@ Remember to always test your code on Windows!
 
 ## Tests
 
-`$ npm test`
-
+`$ npm test`   
+`$ npm test -- --watch` during development
 
 ## License
 
