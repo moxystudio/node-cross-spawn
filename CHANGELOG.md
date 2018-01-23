@@ -16,7 +16,7 @@ All notable changes to this project will be documented in this file. See [standa
 * fix certain arguments not being correctly escaped or causing batch syntax error ([900cf10](https://github.com/moxystudio/node-cross-spawn/commit/900cf10)), closes [#82](https://github.com/moxystudio/node-cross-spawn/issues/82) [#51](https://github.com/moxystudio/node-cross-spawn/issues/51)
 * fix commands as posix unix relatixe paths not working correctly ([900cf10](https://github.com/moxystudio/node-cross-spawn/commit/900cf10))
 * fix `options` argument being mutated ([900cf10](https://github.com/moxystudio/node-cross-spawn/commit/900cf10))
-* fix commands resolution when the env variable was different from PATH ([900cf10](https://github.com/moxystudio/node-cross-spawn/commit/900cf10))
+* fix commands resolution when PATH was actually Path ([900cf10](https://github.com/moxystudio/node-cross-spawn/commit/900cf10))
 
 
 ### Features
