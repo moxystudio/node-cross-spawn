@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.4"></a>
+## [6.0.4](https://github.com/moxystudio/node-cross-spawn/compare/v6.0.3...v6.0.4) (2018-01-31)
+
+
+### Bug Fixes
+
+* fix paths being incorrectly normalized on unix ([06ee3c6](https://github.com/moxystudio/node-cross-spawn/commit/06ee3c6)), closes [#90](https://github.com/moxystudio/node-cross-spawn/issues/90)
+
+
+
 <a name="6.0.3"></a>
 ## [6.0.3](https://github.com/moxystudio/node-cross-spawn/compare/v6.0.2...v6.0.3) (2018-01-23)
 
