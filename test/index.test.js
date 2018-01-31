@@ -32,7 +32,7 @@ run.methods.forEach((method) => {
             expect(stdout.trim()).toBe('foo');
         });
 
-        it('should support shebang in executables with /usr/bin/env', async () => {
+        it('should support shebang in executables with `/usr/bin/env`', async () => {
             const { stdout: stdout1 } = await run(method, `${__dirname}/fixtures/shebang`);
 
             expect(stdout1).toBe('shebang works!');
@@ -219,6 +219,26 @@ run.methods.forEach((method) => {
             expect(stdout3.trim()).toBe('foo');
         });
 
+        it('should work with a relative posix path to a command with a custom `cwd`', async () => {
+            const relativeTestPath = path.relative(process.cwd(), __dirname).replace(/\\/, '/');
+
+            const { stdout: stdout1 } = await run(method, 'fixtures/say-foo', { cwd: relativeTestPath });
+
+            expect(stdout1.trim()).toBe('foo');
+
+            const { stdout: stdout2 } = await run(method, './fixtures/say-foo', { cwd: `./${relativeTestPath}` });
+
+            expect(stdout2.trim()).toBe('foo');
+
+            if (!isWin) {
+                return;
+            }
+
+            const { stdout: stdout3 } = await run(method, './fixtures/say-foo.bat', { cwd: `./${relativeTestPath}` });
+
+            expect(stdout3.trim()).toBe('foo');
+        });
+
         {
             const assertError = (err) => {
                 const syscall = run.isMethodSync(method) ? 'spawnSync' : 'spawn';
@@ -347,6 +367,45 @@ run.methods.forEach((method) => {
                         expect(signal).toBe(null);
                         expect(onExit).toHaveBeenCalledTimes(1);
                         expect(onExit).not.toHaveBeenCalledWith(0, null);
+
+                        timeout = setTimeout(resolve, 1000);
+                    });
+                });
+            });
+        }
+
+        if (run.isMethodSync(method)) {
+            it('should fail with ENOENT a non-existing `cwd` was specified', () => {
+                expect.assertions(1);
+
+                try {
+                    run(method, 'fixtures/say-foo', { cwd: 'somedirthatwillneverexist' });
+                } catch (err) {
+                    expect(err.code).toBe('ENOENT');
+                }
+            });
+        } else {
+            it('should emit `error` and `close` if a non-existing `cwd` was specified', async () => {
+                expect.assertions(3);
+
+                await new Promise((resolve, reject) => {
+                    const promise = run(method, 'somecommandthatwillneverexist', ['foo']);
+                    const { cp } = promise;
+
+                    promise.catch(() => {});
+
+                    let timeout;
+
+                    cp
+                    .on('error', (err) => expect(err.code).toBe('ENOENT'))
+                    .on('exit', () => {
+                        cp.removeAllListeners();
+                        clearTimeout(timeout);
+                        reject(new Error('Should not emit exit'));
+                    })
+                    .on('close', (code, signal) => {
+                        expect(code).not.toBe(0);
+                        expect(signal).toBe(null);
 
                         timeout = setTimeout(resolve, 1000);
                     });
