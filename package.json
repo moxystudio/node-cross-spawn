@@ -64,7 +64,7 @@
     "eslint-config-moxy": "^5.0.0",
     "husky": "^0.14.3",
     "jest": "^22.0.0",
-    "lint-staged": "^6.0.0",
+    "lint-staged": "^7.0.0",
     "mkdirp": "^0.5.1",
     "regenerator-runtime": "^0.11.1",
     "rimraf": "^2.6.2",
