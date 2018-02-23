@@ -59,7 +59,7 @@
     "@commitlint/config-conventional": "^6.0.2",
     "babel-core": "^6.26.0",
     "babel-jest": "^22.1.0",
-    "babel-preset-moxy": "^2.0.4",
+    "babel-preset-moxy": "^2.2.1",
     "eslint": "^4.3.0",
     "eslint-config-moxy": "^5.0.0",
     "husky": "^0.14.3",
