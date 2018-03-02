@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.5"></a>
+## [6.0.5](https://github.com/moxystudio/node-cross-spawn/compare/v6.0.4...v6.0.5) (2018-03-02)
+
+
+### Bug Fixes
+
+* avoid using deprecated Buffer constructor ([#94](https://github.com/moxystudio/node-cross-spawn/issues/94)) ([d5770df](https://github.com/moxystudio/node-cross-spawn/commit/d5770df)), closes [/nodejs.org/api/deprecations.html#deprecations_dep0005](https://github.com//nodejs.org/api/deprecations.html/issues/deprecations_dep0005)
+
+
+
 <a name="6.0.4"></a>
 ## [6.0.4](https://github.com/moxystudio/node-cross-spawn/compare/v6.0.3...v6.0.4) (2018-01-31)
 
