@@ -102,7 +102,7 @@ function run(method, command, args, options) {
         }
 
         method = method.replace(/-force-shell$/, '');
-        options = Object.assign({ forceShell: true }, options);
+        options = { forceShell: true, ...options };
     }
 
     // Run sync version
