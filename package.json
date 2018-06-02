@@ -55,7 +55,7 @@
     "which": "^1.2.9"
   },
   "devDependencies": {
-    "@commitlint/cli": "^6.0.0",
+    "@commitlint/cli": "^7.0.0",
     "@commitlint/config-conventional": "^6.0.2",
     "babel-core": "^6.26.0",
     "babel-jest": "^22.1.0",
