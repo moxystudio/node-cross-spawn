@@ -1,3 +1,7 @@
 {
-    "presets": [["moxy", { "targets": { "node": "4" }}]]
+    "presets": [
+        ["moxy", {
+            "targets": { "node": "4" },
+            "lodash": false }
+        ]]
 }
