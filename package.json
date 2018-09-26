@@ -62,7 +62,7 @@
     "babel-preset-moxy": "^2.3.5",
     "eslint": "^4.3.0",
     "eslint-config-moxy": "^5.0.0",
-    "husky": "^0.14.3",
+    "husky": "^1.0.0",
     "jest": "^21.0.0",
     "lint-staged": "^7.0.0",
     "mkdirp": "^0.5.1",
