@@ -68,7 +68,7 @@
     "mkdirp": "^0.5.1",
     "regenerator-runtime": "^0.12.0",
     "rimraf": "^2.6.2",
-    "standard-version": "^4.2.0"
+    "standard-version": "^5.0.0"
   },
   "engines": {
     "node": ">=4.8"
