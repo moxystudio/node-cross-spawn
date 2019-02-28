@@ -33,7 +33,7 @@
   },
   "standard-version": {
     "scripts": {
-      "posttag": "git push --follow-tags origin master && npm publish"
+      "posttag": "git push --follow-tags origin master"
     }
   },
   "lint-staged": {
