@@ -1,13 +1,9 @@
 language: node_js
 node_js:
-  - '4.7'
-  - '4.8'
-  - '5.6'
-  - '5.7'
-  - '6'
-  - 'lts/*'
-# nodejs 11.11.X was failing with this https://travis-ci.org/moxystudio/node-proper-lockfile/jobs/503161746#L469
-#  - 'node'
+  - 8
+  - 9
+  - 10
+  - 12
 after_success:
-  - "npm i codecov"
-  - "node_modules/.bin/codecov"
+  - 'npm i codecov'
+  - 'node_modules/.bin/codecov'
