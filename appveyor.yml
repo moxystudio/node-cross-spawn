@@ -4,21 +4,12 @@
 init:
   - git config --global core.autocrlf input
 
-# If we are running on Node <6, we must install npm v3 otherwise
-# there will be intermitent errors when running `npm install`
 environment:
   matrix:
-    - nodejs_version: 4.7
-      npm_version: ^3.0.0
-    - nodejs_version: 4.8
-      npm_version: ^3.0.0
-    - nodejs_version: 5.6
-      npm_version: ^3.0.0
-    - nodejs_version: 5.7
-      npm_version: ^3.0.0
-    - nodejs_version: 6
     - nodejs_version: 8
     - nodejs_version: 9
+    - nodejs_version: 10
+    - nodejs_version: 12
 
 install:
   - ps: Install-Product node $env:nodejs_version
