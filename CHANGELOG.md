@@ -1,6 +1,15 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [7.0.0](https://github.com/moxystudio/node-cross-spawn/compare/v6.0.5...v7.0.0) (2019-09-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop support for Node.js < 8
+
+* drop support for versions below Node.js 8 ([#125](https://github.com/moxystudio/node-cross-spawn/issues/125)) ([16feb53](https://github.com/moxystudio/node-cross-spawn/commit/16feb53))
 
 <a name="6.0.5"></a>
 ## [6.0.5](https://github.com/moxystudio/node-cross-spawn/compare/v6.0.4...v6.0.5) (2018-03-02)

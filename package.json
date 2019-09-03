@@ -1,6 +1,6 @@
 {
   "name": "cross-spawn",
-  "version": "6.0.5",
+  "version": "7.0.0",
   "description": "Cross platform child_process#spawn and child_process#spawnSync",
   "keywords": [
     "spawn",
