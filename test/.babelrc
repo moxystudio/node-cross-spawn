@@ -1,7 +1,6 @@
 {
     "presets": [
-        ["moxy", {
-            "targets": { "node": "4" },
+        ["babel-preset-moxy/lib", {
             "lodash": false }
         ]]
 }
