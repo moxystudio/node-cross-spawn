@@ -53,8 +53,8 @@
   },
   "dependencies": {
     "path-key": "^3.1.0",
-    "shebang-command": "^1.2.0",
-    "which": "^1.2.9"
+    "shebang-command": "^2.0.0",
+    "which": "^2.0.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
