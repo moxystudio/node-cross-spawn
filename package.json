@@ -28,7 +28,7 @@
     "test": "jest --env node --coverage",
     "prerelease": "npm t && npm run lint",
     "release": "standard-version",
-    "postrelease": "git push --follow-tags origin HEAD"
+    "postrelease": "git push --follow-tags origin HEAD && npm publish"
   },
   "husky": {
     "hooks": {
