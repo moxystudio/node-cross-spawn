@@ -434,5 +434,22 @@ run.methods.forEach((method) => {
                 expect(Number(stdout.trim())).toBe(process.pid);
             });
         }
+
+        if (isWin) {
+            const differentPathKey = pathKey.startsWith('p') ? 'PATH' : 'path';
+
+            it('should work if the path key is different in options.env', async () => {
+                const env = {
+                    ...process.env,
+                    [differentPathKey]: `${__dirname}\\fixtures;${process.env[pathKey]}`,
+                };
+
+                delete env[pathKey];
+
+                const { stdout } = await run(method, 'whoami', { env });
+
+                expect(stdout.trim()).toBe('you sure are someone');
+            });
+        }
     });
 });
