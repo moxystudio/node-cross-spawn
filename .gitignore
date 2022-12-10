@@ -3,3 +3,4 @@ npm-debug.*
 coverage/
 test/fixtures/(*
 test/tmp/
+.vscode

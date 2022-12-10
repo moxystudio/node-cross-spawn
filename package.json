@@ -24,7 +24,7 @@
     "lib"
   ],
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint --fix .",
     "test": "jest --env node --coverage",
     "prerelease": "npm t && npm run lint",
     "release": "standard-version",
