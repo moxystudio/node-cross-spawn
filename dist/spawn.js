@@ -99,7 +99,6 @@ function spawnAsync(command, args, options) {
     });
 }
 exports.spawnAsync = spawnAsync;
-exports.default = spawn;
 exports._enoent = enoent_1.default;
 exports._parse = parse_1.default;
 exports.async = spawnAsync;

@@ -14,7 +14,7 @@ export declare function spawn(command: string, args: string[] | cp.SpawnOptions,
 /**
  * return of require('child_process').spawnSync
  */
-export type spawnSyncReturn = ReturnType<typeof cp.spawnSync> | {
+export type spawnSyncReturn = cp.SpawnSyncReturns<Buffer | string> | {
     [key: string]: any;
     status: number;
     signal: any;
@@ -46,7 +46,6 @@ export declare function spawnAsync(command: string, args: string[], options?: im
     output: string;
     error: string | null;
 }>;
-export default spawn;
 export declare const _enoent: typeof enoent;
 export declare const _parse: typeof parse;
 export declare const async: typeof spawnAsync;

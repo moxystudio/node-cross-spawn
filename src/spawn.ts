@@ -31,7 +31,7 @@ export function spawn(
  * return of require('child_process').spawnSync
  */
 export type spawnSyncReturn =
-  | ReturnType<typeof cp.spawnSync>
+  | cp.SpawnSyncReturns<Buffer | string>
   | {
       [key: string]: any;
       status: number;
@@ -119,7 +119,6 @@ export function spawnAsync(
   });
 }
 
-export default spawn;
 export const _enoent = enoent;
 export const _parse = parse;
 export const async = spawnAsync;
