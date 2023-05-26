@@ -14,7 +14,7 @@ export declare function spawn(command: string, args: string[] | cp.SpawnOptions,
 /**
  * return of require('child_process').spawnSync
  */
-export type spawnSyncReturn = ReturnType<typeof cp.spawnSync> | {
+export type spawnSyncReturn = cp.SpawnSyncReturns<Buffer | string> | {
     [key: string]: any;
     status: number;
     signal: any;

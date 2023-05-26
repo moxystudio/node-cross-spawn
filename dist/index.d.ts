@@ -1,4 +1,4 @@
-declare const _exports: typeof spawn.spawn;
-export = _exports;
-import spawn = require("./spawn");
+import * as spawn from './spawn';
+export * from './spawn';
+export default spawn;
 //# sourceMappingURL=index.d.ts.map

@@ -1,7 +1,8 @@
 {
   // include source
   "include": [
-    "src"
+    "src/index.ts",
+    "src/spawn.ts"
   ],
   // excludes
   "exclude": ["**/dist/**", "**/node_modules/**"],
