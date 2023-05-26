@@ -3,6 +3,9 @@
 const fs = require('fs');
 const shebangCommand = require('shebang-command');
 
+/**
+ * @param command
+ */
 function readShebang(command) {
     // Read the first 150 bytes from the file
     const size = 150;
