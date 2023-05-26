@@ -2,6 +2,10 @@
 
 const isWin = process.platform === 'win32';
 
+/**
+ * @param original
+ * @param syscall
+ */
 function notFoundError(original, syscall) {
     return Object.assign(new Error(`${syscall} ${original.command} ENOENT`), {
         code: 'ENOENT',
@@ -12,6 +16,10 @@ function notFoundError(original, syscall) {
     });
 }
 
+/**
+ * @param cp
+ * @param parsed
+ */
 function hookChildProcess(cp, parsed) {
     if (!isWin) {
         return;
@@ -35,6 +43,10 @@ function hookChildProcess(cp, parsed) {
     };
 }
 
+/**
+ * @param status
+ * @param parsed
+ */
 function verifyENOENT(status, parsed) {
     if (isWin && status === 1 && !parsed.file) {
         return notFoundError(parsed.original, 'spawn');
@@ -43,6 +55,10 @@ function verifyENOENT(status, parsed) {
     return null;
 }
 
+/**
+ * @param status
+ * @param parsed
+ */
 function verifyENOENTSync(status, parsed) {
     if (isWin && status === 1 && !parsed.file) {
         return notFoundError(parsed.original, 'spawnSync');
