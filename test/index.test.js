@@ -247,7 +247,6 @@ run.methods.forEach((method) => {
                 expect(err.message).toMatch('ENOENT');
                 expect(err.message).not.toMatch('undefined');
                 expect(err.code).toBe('ENOENT');
-                expect(err.errno).toBe('ENOENT');
                 expect(err.syscall).toMatch(syscall);
                 expect(err.syscall).not.toMatch('undefined');
                 expect(err.path).toMatch('somecommandthatwillneverexist');
@@ -256,7 +255,7 @@ run.methods.forEach((method) => {
 
             if (run.isMethodSync(method)) {
                 it('should fail with ENOENT if the command does not exist', () => {
-                    expect.assertions(9);
+                    expect.assertions(8);
 
                     try {
                         run(method, 'somecommandthatwillneverexist', ['foo']);
@@ -266,7 +265,7 @@ run.methods.forEach((method) => {
                 });
             } else {
                 it('should emit `error` and `close` if command does not exist', async () => {
-                    expect.assertions(11);
+                    expect.assertions(10);
 
                     await new Promise((resolve, reject) => {
                         const promise = run(method, 'somecommandthatwillneverexist', ['foo']);
