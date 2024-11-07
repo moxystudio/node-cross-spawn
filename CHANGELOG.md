@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.5](https://github.com/moxystudio/node-cross-spawn/compare/v7.0.4...v7.0.5) (2024-11-07)
+
+
+### Bug Fixes
+
+* fix escaping bug introduced by backtracking ([640d391](https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f))
+
 ### [7.0.4](https://github.com/moxystudio/node-cross-spawn/compare/v7.0.3...v7.0.4) (2024-11-07)
 
 
