@@ -6,10 +6,9 @@ init:
 
 environment:
   matrix:
-    - nodejs_version: 8
-    - nodejs_version: 9
-    - nodejs_version: 10
-    - nodejs_version: 12
+    - nodejs_version: 18
+    - nodejs_version: 20
+    - nodejs_version: 22
 
 install:
   - ps: Install-Product node $env:nodejs_version
@@ -26,7 +25,3 @@ test_script:
   - node --version
   - npm --version
   - cmd: npm test --no-color
-
-after_test:
-  - "npm i codecov"
-  - "node_modules/.bin/codecov"
