@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.6"></a>
+## [6.0.6](https://github.com/moxystudio/node-cross-spawn/compare/v6.0.5...v6.0.6) (2024-11-18)
+
+
+### Bug Fixes
+
+* disable regexp backtracking ([#160](https://github.com/moxystudio/node-cross-spawn/issues/160)) ([ba5aaef](https://github.com/moxystudio/node-cross-spawn/commit/ba5aaef))
+* **core:** support worker threads ([#127](https://github.com/moxystudio/node-cross-spawn/issues/127)) ([f4af31c](https://github.com/moxystudio/node-cross-spawn/commit/f4af31c))
+
+
+
 <a name="6.0.5"></a>
 ## [6.0.5](https://github.com/moxystudio/node-cross-spawn/compare/v6.0.4...v6.0.5) (2018-03-02)
 
