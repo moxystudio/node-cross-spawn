@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.6](https://github.com/moxystudio/node-cross-spawn/compare/v7.0.5...v7.0.6) (2024-11-18)
+
+
+### Bug Fixes
+
+* update cross-spawn version to 7.0.5 in package-lock.json ([f700743](https://github.com/moxystudio/node-cross-spawn/commit/f700743918d901eff92960e15a8dd68f87bd4176))
+
 ### [7.0.5](https://github.com/moxystudio/node-cross-spawn/compare/v7.0.4...v7.0.5) (2024-11-07)
 
 
