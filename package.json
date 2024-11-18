@@ -65,7 +65,7 @@
     "lint-staged": "^9.2.5",
     "mkdirp": "^0.5.1",
     "rimraf": "^3.0.0",
-    "standard-version": "^7.0.0"
+    "standard-version": "^9.5.0"
   },
   "engines": {
     "node": ">= 8"
