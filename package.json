@@ -26,14 +26,13 @@
   "scripts": {
     "lint": "eslint .",
     "test": "jest --env node --coverage",
-    "prerelease": "npm t && npm run lint",
     "release": "standard-version",
     "precommit": "lint-staged",
     "commitmsg": "commitlint -e $GIT_PARAMS"
   },
   "standard-version": {
     "scripts": {
-      "posttag": "git push --follow-tags origin master && npm publish"
+      "posttag": "git push --follow-tags origin v6"
     }
   },
   "lint-staged": {
