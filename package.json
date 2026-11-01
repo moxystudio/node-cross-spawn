@@ -21,7 +21,8 @@
   "license": "MIT",
   "main": "index.js",
   "files": [
-    "lib"
+    "lib",
+    "!lib/**/*.test.js"
   ],
   "scripts": {
     "lint": "eslint .",
@@ -35,6 +36,13 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lint-staged"
     }
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "index.js",
+      "lib/**/*.js",
+      "!lib/**/*.test.js"
+    ]
   },
   "lint-staged": {
     "*.js": [
