@@ -1,13 +1,29 @@
 name: CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
-    unit:
+    lint:
         runs-on: ubuntu-latest
 
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                node-version: '22'
+
+            - run: npm ci
+
+            - run: npm run lint
+
+    unit:
+        runs-on: ${{ matrix.os }}
+
         strategy:
+            fail-fast: false
             matrix:
+                os: [ubuntu-latest, windows-latest]
                 node-version: ['18', '20', '22']
 
         steps:
@@ -18,7 +34,5 @@ jobs:
                 node-version: ${{ matrix.node-version }}
 
             - run: npm ci
-
-            - run: npm run lint
 
             - run: npm test

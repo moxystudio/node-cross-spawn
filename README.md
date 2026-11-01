@@ -1,14 +1,12 @@
 # cross-spawn
 
-[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][ci-image]][ci-url] [![Build status][appveyor-image]][appveyor-url]
+[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][ci-image]][ci-url]
 
 [npm-url]:https://npmjs.org/package/cross-spawn
 [downloads-image]:https://img.shields.io/npm/dm/cross-spawn.svg
 [npm-image]:https://img.shields.io/npm/v/cross-spawn.svg
 [ci-url]:https://github.com/moxystudio/node-cross-spawn/actions/workflows/ci.yaml
 [ci-image]:https://github.com/moxystudio/node-cross-spawn/actions/workflows/ci.yaml/badge.svg
-[appveyor-url]:https://ci.appveyor.com/project/satazor/node-cross-spawn
-[appveyor-image]:https://img.shields.io/appveyor/ci/satazor/node-cross-spawn/master.svg
 
 A cross platform solution to node's spawn and spawnSync.
 
