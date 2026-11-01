@@ -452,3 +452,38 @@ run.methods.forEach((method) => {
         }
     });
 });
+
+if (isWin && parseInt(process.versions.node, 10) >= 12) {
+    const Worker = require('worker_threads').Worker;
+
+    it('should resolve relative shebangs from worker threads with a custom cwd', () => {
+        const workerCode = [
+            'const { parentPort, workerData } = require("worker_threads");',
+            'const spawn = require(workerData.modulePath);',
+            'const result = spawn.sync(workerData.command, [], { cwd: workerData.cwd });',
+            'parentPort.postMessage({',
+            '    status: result.status,',
+            '    error: result.error && result.error.code,',
+            '    stdout: result.stdout && result.stdout.toString(),',
+            '});',
+        ].join('\n');
+
+        const worker = new Worker(workerCode, {
+            eval: true,
+            workerData: {
+                modulePath: path.resolve(__dirname, '..'),
+                command: './fixtures/shebang',
+                cwd: __dirname,
+            },
+        });
+
+        return new Promise((resolve, reject) => {
+            worker.once('message', resolve);
+            worker.once('error', reject);
+        }).then((result) => {
+            expect(result.error).toBe(null);
+            expect(result.status).toBe(0);
+            expect(result.stdout).toBe('shebang works!');
+        });
+    });
+}
