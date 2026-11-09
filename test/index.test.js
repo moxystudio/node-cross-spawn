@@ -157,6 +157,18 @@ run.methods.forEach((method) => {
 
                 expect(stdout).toBe(arg);
             });
+
+            it('should keep runs of backslashes when executing `node_modules/.bin/<file>.cmd`', async () => {
+                mkdirp.sync(`${__dirname}/fixtures/node_modules/.bin`);
+                fs.writeFileSync(`${__dirname}/fixtures/node_modules/.bin/echo-cmd-shim.cmd`,
+                    fs.readFileSync(`${__dirname}/fixtures/echo-cmd-shim.cmd`));
+
+                const args = ['a\\\\', 'x\\\\" --foo \\\\', 'C:\\a\\\\', 'bar'];
+
+                const { stdout } = await run(method, `${__dirname}/fixtures/node_modules/.bin/echo-cmd-shim`, args);
+
+                expect(stdout).toBe(args.join('\n'));
+            });
         }
 
         it('should handle commands with names of environment variables', async () => {
